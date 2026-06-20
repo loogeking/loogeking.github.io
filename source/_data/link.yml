@@ -1,0 +1,11 @@
+- link_list:
+    - name: Rhine's Blog
+      link: https://rhineblog.example.com
+      avatar: https://picsum.photos/100
+      descr: 朋友的博客
+
+- link_list:
+    - name: Butterfly 主题
+      link: https://butterfly.js.org/
+      avatar: https://butterfly.js.org/img/favicon.png
+      descr: 一个简洁优雅的 Hexo 主题
