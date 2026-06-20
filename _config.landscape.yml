@@ -1,0 +1,17 @@
+# 这里的配置会覆盖 themes/butterfly/_config.yml
+# 详细配置在 Phase 2 处理
+
+# 菜单
+menu:
+  首页: / || fas fa-home
+  归档: /archives/ || fas fa-archive
+  标签: /tags/ || fas fa-tags
+  分类: /categories/ || fas fa-folder-open
+  友链: /link/ || fas fa-link
+  关于: /about/ || fas fa-heart
+
+# 代码高亮主题
+highlight_theme: mac
+
+# 暗色模式
+display_mode: auto
