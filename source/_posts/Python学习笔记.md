@@ -3,7 +3,7 @@ title: Python学习笔记
 date: 2026-06-20 18:53:38
 tags:
   - Python
-cover: img/articles/Python学习笔记.mp4
+cover: img/articles/Python.png
 ---
 # Python 学习笔记
 
