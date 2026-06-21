@@ -983,3 +983,508 @@
     color: #ffffff !important;
 }
 
+
+
+/* ============ 23. 友链页面 - 完全复刻首页文章卡 ============ */
+
+/* 容器透明化 */
+.flink #article-container,
+#article-container.flink {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* 分组标题 */
+.flink .title {
+  font-size: 1.6rem !important;
+  font-weight: 700 !important;
+  color: var(--lk-text) !important;
+  margin: 2rem 0 0.4rem 0 !important;
+  padding: 0 0 0 0.9rem !important;
+  border-left: 4px solid var(--lk-accent) !important;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  background: transparent !important;
+}
+
+.flink .title:first-child {
+  margin-top: 0 !important;
+}
+
+/* 分组描述 */
+.flink .flink-desc {
+  font-size: 0.9rem !important;
+  color: var(--lk-text-meta) !important;
+  margin: 0 0 1.4rem 0.9rem !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+/* 分组容器 */
+.flink .flink-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1.8rem !important;
+  margin: 0 0 2rem 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  list-style: none !important;
+}
+
+/* ====== 单张友链卡 ====== */
+.flink .flink-list-item {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  height: 260px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+  background: var(--lk-card-bg) !important;
+  backdrop-filter: blur(var(--lk-blur)) saturate(var(--lk-saturate)) !important;
+  -webkit-backdrop-filter: blur(var(--lk-blur)) saturate(var(--lk-saturate)) !important;
+  border: 1px solid var(--lk-card-border) !important;
+  box-shadow: var(--lk-card-shadow), inset 0 1px 0 var(--lk-glow) !important;
+  transition:
+    transform var(--lk-duration) var(--lk-ease),
+    background var(--lk-duration) var(--lk-ease),
+    box-shadow var(--lk-duration) var(--lk-ease) !important;
+}
+
+.flink .flink-list-item:hover {
+  transform: translateY(-8px) !important;
+  background: var(--lk-card-bg-hover) !important;
+  box-shadow: var(--lk-card-shadow-hover), inset 0 1px 0 var(--lk-glow) !important;
+}
+
+/* 旋转光斑 */
+.flink .flink-list-item::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: -50% !important;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    var(--lk-glow) 60deg,
+    transparent 120deg,
+    transparent 240deg,
+    var(--lk-glow) 300deg,
+    transparent 360deg
+  ) !important;
+  opacity: 0 !important;
+  transition: opacity 0.6s var(--lk-ease) !important;
+  animation: lk-rotate 10s linear infinite !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+.flink .flink-list-item:hover::before {
+  opacity: 0.35 !important;
+}
+
+/* ====== 图片：强制铺满左 45% ====== */
+.flink .flink-list-item img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  right: auto !important;
+  width: 45% !important;
+  max-width: 45% !important;
+  min-width: 45% !important;
+  height: 260px !important;
+  min-height: 260px !important;
+  max-height: 260px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  display: block !important;
+  background: rgba(0, 0, 0, 0.06);
+  transition: transform 0.6s var(--lk-ease) !important;
+  z-index: 1 !important;
+  /* 强制覆盖 #article-container img 的 aspect-ratio / max-width 等限制 */
+  aspect-ratio: auto !important;
+  flex: none !important;
+}
+
+.flink .flink-list-item:hover img {
+  transform: scale(1.08) !important;
+}
+
+/* ====== 站点名称（垂直居中靠上） ====== */
+.flink .flink-list-item .flink-item-name,
+.flink .flink-list-item span.flink-item-name {
+  position: absolute !important;
+  top: 50% !important;
+  left: calc(45% + 2rem) !important;
+  right: 2rem !important;
+  width: auto !important;
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  transform: translateY(-2.2em) !important;
+  display: block !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+  color: var(--lk-text) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  background: transparent !important;
+  text-align: left !important;
+  text-shadow: none !important;
+  transition: color 0.3s var(--lk-ease) !important;
+  z-index: 2 !important;
+}
+
+.flink .flink-list-item:hover .flink-item-name {
+  color: var(--lk-accent) !important;
+}
+
+/* ====== 站点描述（垂直居中靠下） ====== */
+.flink .flink-list-item .flink-item-desc,
+.flink .flink-list-item span.flink-item-desc {
+  position: absolute !important;
+  top: 50% !important;
+  left: calc(45% + 2rem) !important;
+  right: 2rem !important;
+  width: auto !important;
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  transform: translateY(0.2em) !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3 !important;
+  -webkit-box-orient: vertical !important;
+  font-size: 0.95rem !important;
+  line-height: 1.75 !important;
+  color: var(--lk-text-sub) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  background: transparent !important;
+  text-align: left !important;
+  white-space: normal !important;
+  z-index: 2 !important;
+}
+
+[data-theme="dark"] .flink .flink-list-item .flink-item-desc {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* 包裹链接 */
+.flink .flink-list-item a {
+  color: inherit !important;
+  text-decoration: none !important;
+  background: transparent !important;
+}
+
+/* ====== 移动端 ====== */
+@media (max-width: 768px) {
+  .flink .flink-list-item {
+    height: auto !important;
+    min-height: 380px !important;
+    padding-bottom: 1.4rem !important;
+  }
+  .flink .flink-list-item img {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    height: 180px !important;
+    min-height: 180px !important;
+    max-height: 180px !important;
+    top: auto !important;
+    left: auto !important;
+    bottom: auto !important;
+  }
+  .flink .flink-list-item .flink-item-name,
+  .flink .flink-list-item .flink-item-desc {
+    position: static !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: auto !important;
+    padding: 0 1.4rem !important;
+    transform: none !important;
+    margin: 0 !important;
+  }
+  .flink .flink-list-item .flink-item-name {
+    margin-top: 1rem !important;
+    font-size: 1.2rem !important;
+    white-space: normal !important;
+  }
+  .flink .flink-list-item .flink-item-desc {
+    margin-top: 0.6rem !important;
+    -webkit-line-clamp: 2 !important;
+  }
+  .flink .flink-list-item::before {
+    display: none !important;
+  }
+}
+/* ============ 23.x 友链卡：左右交叉布局（偶数张图片在右） ============ */
+
+/* 第 2、4、6... 张：图片放右边 */
+.flink .flink-list-item:nth-child(even) img {
+  left: auto !important;
+  right: 0 !important;
+}
+
+.flink .flink-list-item:nth-child(even) .flink-item-name,
+.flink .flink-list-item:nth-child(even) span.flink-item-name,
+.flink .flink-list-item:nth-child(even) .flink-item-desc,
+.flink .flink-list-item:nth-child(even) span.flink-item-desc {
+  left: 2rem !important;
+  right: calc(45% + 2rem) !important;
+}
+
+/* 移动端不交叉：图片始终在顶部 */
+@media (max-width: 768px) {
+  .flink .flink-list-item:nth-child(even) img {
+    left: auto !important;
+    right: auto !important;
+  }
+  .flink .flink-list-item:nth-child(even) .flink-item-name,
+  .flink .flink-list-item:nth-child(even) .flink-item-desc {
+    left: 0 !important;
+    right: 0 !important;
+  }
+}
+
+
+/* ============ 24. 文章目录 TOC 修复 ============ */
+#card-toc,
+.card-widget.card-toc {
+  background: var(--lk-card-bg) !important;
+}
+
+/* 目录标题 */
+#card-toc .item-headline,
+.card-toc .toc-percentage {
+  color: var(--lk-text) !important;
+  font-weight: 700 !important;
+}
+
+/* 目录所有链接 - 浅色模式强制黑色 */
+#card-toc .toc-link,
+.toc-link,
+#card-toc .toc a,
+.toc a {
+  color: #1a2238 !important;
+  opacity: 1 !important;
+  font-weight: 500 !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+  transition: color 0.3s, background 0.3s;
+}
+
+/* 目录编号 */
+#card-toc .toc-number,
+.toc-number {
+  color: #1a2238 !important;
+  opacity: 0.85 !important;
+  font-weight: 600 !important;
+}
+
+/* 目录文字 */
+#card-toc .toc-text,
+.toc-text {
+  color: #1a2238 !important;
+  opacity: 1 !important;
+}
+
+/* 当前激活项 */
+#card-toc .toc-link.active,
+.toc-link.active {
+  background: var(--lk-accent) !important;
+  color: #fff !important;
+  border-radius: 8px;
+  padding: 4px 10px !important;
+}
+
+#card-toc .toc-link.active .toc-number,
+#card-toc .toc-link.active .toc-text,
+.toc-link.active .toc-number,
+.toc-link.active .toc-text {
+  color: #fff !important;
+  text-shadow: none !important;
+}
+
+/* 悬浮态 */
+#card-toc .toc-link:hover,
+.toc-link:hover {
+  color: var(--lk-accent) !important;
+  background: rgba(74, 144, 226, 0.1);
+  border-radius: 6px;
+}
+
+/* 暗色模式恢复白色 */
+[data-theme="dark"] #card-toc .toc-link,
+[data-theme="dark"] .toc-link,
+[data-theme="dark"] #card-toc .toc-number,
+[data-theme="dark"] .toc-number,
+[data-theme="dark"] #card-toc .toc-text,
+[data-theme="dark"] .toc-text {
+  color: #e8ecf4 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] #card-toc .toc-link.active .toc-number,
+[data-theme="dark"] #card-toc .toc-link.active .toc-text,
+[data-theme="dark"] .toc-link.active .toc-number,
+[data-theme="dark"] .toc-link.active .toc-text {
+  color: #0a0e1a !important;
+}
+
+/* ============ 25. 代码块优化 ============ */
+
+/* 代码块铺满文章容器宽度 */
+#article-container .highlight,
+#article-container figure.highlight,
+#article-container pre {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 1.5rem 0 !important;
+  padding: 0 !important;
+  background: rgba(20, 28, 48, 0.92) !important;
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  border-radius: 14px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.25) !important;
+  overflow: hidden !important;
+}
+
+/* 代码块顶部语言标签栏 */
+#article-container .highlight figcaption,
+#article-container figure.highlight figcaption,
+#article-container .highlight .code-lang {
+  background: rgba(0, 0, 0, 0.35) !important;
+  padding: 10px 18px !important;
+  margin: 0 !important;
+  border-radius: 14px 14px 0 0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  font-size: 0.85rem !important;
+}
+
+/* 代码内容区 */
+#article-container .highlight pre,
+#article-container figure.highlight pre,
+#article-container .highlight .code,
+#article-container .highlight table {
+  background: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-shadow: none !important;
+}
+
+/* 行号列 */
+#article-container .highlight .gutter,
+#article-container .highlight td.gutter {
+  width: 3em !important;
+  min-width: 3em !important;
+  padding: 14px 0 14px 14px !important;
+  background: rgba(0, 0, 0, 0.2) !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+  text-align: right !important;
+}
+
+#article-container .highlight .gutter pre,
+#article-container .highlight .gutter .line {
+  color: rgba(255, 255, 255, 0.4) !important;
+  font-size: 0.85rem !important;
+  line-height: 1.7 !important;
+  padding-right: 10px !important;
+}
+
+/* 代码主体 */
+#article-container .highlight .code,
+#article-container .highlight td.code {
+  width: 100% !important;
+  padding: 14px 18px !important;
+  overflow-x: auto !important;
+}
+
+#article-container .highlight .code pre,
+#article-container .highlight .code .line {
+  color: #e8ecf4 !important;
+  font-size: 0.9rem !important;
+  line-height: 1.7 !important;
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace !important;
+  white-space: pre !important;
+  background: transparent !important;
+}
+
+/* 单行 inline code（段落中的 `代码`） */
+#article-container :not(pre) > code {
+  background: rgba(74, 144, 226, 0.12) !important;
+  color: #c92a6a !important;
+  padding: 2px 8px !important;
+  margin: 0 4px !important;
+  border-radius: 6px !important;
+  font-size: 0.88em !important;
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace !important;
+  border: 1px solid rgba(74, 144, 226, 0.2) !important;
+  white-space: nowrap;
+}
+
+[data-theme="dark"] #article-container :not(pre) > code {
+  background: rgba(126, 184, 255, 0.15) !important;
+  color: #ff8fb1 !important;
+  border-color: rgba(126, 184, 255, 0.25) !important;
+}
+
+/* 复制按钮 */
+#article-container .highlight .copy-notice,
+#article-container .highlight-tools .copy-button {
+  color: rgba(255, 255, 255, 0.7) !important;
+  transition: color 0.3s;
+}
+
+#article-container .highlight-tools .copy-button:hover {
+  color: var(--lk-accent) !important;
+}
+
+/* 代码块滚动条 */
+#article-container .highlight .code::-webkit-scrollbar {
+  height: 6px;
+}
+
+#article-container .highlight .code::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+#article-container .highlight .code::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+mjx-container[display="true"],
+.MathJax_Display,
+.katex-display {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  max-width: 100% !important;
+  padding: 8px 0;
+} 
+
+#article-container img {
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  max-width: 100%;
+}

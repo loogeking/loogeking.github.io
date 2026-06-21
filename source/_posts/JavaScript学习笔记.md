@@ -3,6 +3,8 @@ title: JavaScript学习笔记
 date: 2026-06-20 21:42:16
 tags:
   - JavaScript
+categories: 
+  - 前端开发
 cover: /img/articles/Javascript.png
 ---
 # JavaScript 学习笔记

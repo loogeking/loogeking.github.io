@@ -215,3 +215,4 @@ inject:
     - - <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   bottom:
     - <script src="/js/custom.js"></script>
+    - <script src="/js/auto-dark-post.js"></script>

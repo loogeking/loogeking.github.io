@@ -1,11 +1,29 @@
-- link_list:
-    - name: Rhine's Blog
-      link: https://rhineblog.example.com
-      avatar: https://picsum.photos/100
-      descr: 朋友的博客
+# 友情链接数据
+# class_name: 分组名称
+# class_desc: 分组描述
+# link_list: 该组下的链接列表
+#   - name:    站点名称
+#     link:    站点 URL
+#     avatar:  封面图（建议横图，比例 16:9 或 3:2，效果最佳）
+#     descr:   站点描述（1-3 句话）
 
-- link_list:
+- class_name: 朋友的博客
+  class_desc: 一起在互联网上闪光的人
+  link_list:
+    - name: Rhine's Blog
+      link: https://rhine.bbroot.com/
+      avatar: /img/links/罗.png
+      descr: 朋友的博客，记录学习与生活的点滴。
+
+- class_name: 网站链接
+  class_desc: 收藏的优质站点
+  link_list:
     - name: Butterfly 主题
-      link: https://butterfly.js.org/
-      avatar: https://butterfly.js.org/img/favicon.png
-      descr: 一个简洁优雅的 Hexo 主题
+      link: https://butterfly.js.org
+      avatar: /img/links/link1.png
+      descr: 一个简洁优雅的 Hexo 主题，文档完善，社区活跃。
+
+    - name: Hexo 官网
+      link: https://hexo.io/zh-cn/
+      avatar: /img/links/link2.png
+      descr: 快速、简洁且高效的博客框架，基于 Node.js。
