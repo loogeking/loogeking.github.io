@@ -169,7 +169,7 @@ rightside_item_order:
   show: darkmode
 readmode: true                   # 阅读模式
 translate:
-  enable: false                  # 翻译（先关）
+  enable: true                  # 翻译（先关）
 
 # ========== 暗色模式 ==========
 display_mode: auto               # light / dark / auto
@@ -212,7 +212,7 @@ reading_progress:
 inject:
   head:
     - <link rel="stylesheet" href="/css/custom.css">
-    - - <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    - <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   bottom:
     - <script src="/js/custom.js"></script>
     - <script src="/js/auto-dark-post.js"></script>

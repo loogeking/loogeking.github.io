@@ -26,24 +26,36 @@ index_generator:
   per_page: 8
   order_by: -date
 
-
-
 # Pagination
 per_page: 8
 
 # Extensions
 theme: butterfly
 
+# ========== 代码高亮（关闭行号）==========
+highlight:
+  enable: true
+  line_number: false
+  auto_detect: false
+  tab_replace: ''
+  wrap: true
+  hljs: false
+
+prismjs:
+  enable: false
+  preprocess: true
+  line_number: false
+  tab_replace: ''
+
 # Math
 math:
-  # 选择 mathjax 或 katex
   use: mathjax
-  per_page: true  # true 时只在 mathjax: true 的文章渲染；false 全局
+  per_page: true
   hide_scrollbar: false
 
 mathjax:
   enable: true
-  per_page: true  
+  per_page: true
 
 markdown:
   plugins:
@@ -53,7 +65,8 @@ markdown:
 archive_generator:
   per_page: 0
   yearly: true
-  monthly: true 
+  monthly: true
+
 # 分类页面设置 (Category)
 category_generator:
   per_page: 0
