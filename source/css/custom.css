@@ -1306,253 +1306,157 @@ color: #0a0e1a !important;
 }
 
 /* ========================================================================
-* 25. 代码块优化 - 主流现代风格（macOS Big Sur 风）
-* 完全去除行号，模仿 GitHub / VS Code / Notion 风格
+* 25. 代码块优化 - macOS风，完美支持明暗双模式【已修复顶部空白】
 * ======================================================================== */
 
-/* ---- 25.1 修复列表里嵌套代码块的小圆点 ---- */
-#article-container li > figure.highlight,
-#article-container li > pre,
-#article-container li > div.highlight {
-list-style: none !important;
-}
-
-#article-container li:has(> figure.highlight),
-#article-container li:has(> pre),
-#article-container li:has(> div.highlight) {
-list-style: none !important;
-}
-
-#article-container ul li figure.highlight,
-#article-container ol li figure.highlight {
-margin-left: -1.5em !important;
-}
+/* ---- 25.1 修复列表里嵌套代码块 ---- */
+#article-container li > figure.highlight { list-style: none !important; margin-left: -1.2em !important; }
 
 /* ---- 25.2 代码块外壳 ---- */
-#article-container .highlight,
 #article-container figure.highlight,
-#article-container pre.highlight,
-#article-container div.highlight {
-position: relative !important;
-width: 100% !important;
-max-width: 100% !important;
-margin: 1.5rem 0 !important;
-padding: 0 !important;
-background: #1e1e2e !important;
-border-radius: 12px !important;
-border: 1px solid rgba(255, 255, 255, 0.08) !important;
-box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25) !important;
-overflow: hidden !important;
+#article-container .highlight {
+  position: relative !important;
+  margin: 1.5rem 0 !important;
+  padding: 0 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  /* 亮色：直接复用你的毛玻璃卡片 */
+  background: var(--lk-card-bg) !important;
+  backdrop-filter: blur(var(--lk-blur)) saturate(var(--lk-saturate));
+  -webkit-backdrop-filter: blur(var(--lk-blur)) saturate(var(--lk-saturate));
+  border: 1px solid var(--lk-card-border) !important;
+  box-shadow: var(--lk-card-shadow) !important;
+}
+/* 暗色：用纯色，不然毛玻璃看不清代码 */
+[data-theme="dark"] #article-container figure.highlight,
+[data-theme="dark"] #article-container .highlight {
+  background: #1e1e2e !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.35) !important;
 }
 
-/* ---- 25.3 顶部 macOS 风三色圆点 + 语言标签 ---- */
-#article-container .highlight::before,
-#article-container figure.highlight::before {
-content: "" !important;
-display: block !important;
-height: 38px !important;
-background:
-  radial-gradient(circle at 18px 19px, #ff5f56 6px, transparent 6.5px),
-  radial-gradient(circle at 40px 19px, #ffbd2e 6px, transparent 6.5px),
-  radial-gradient(circle at 62px 19px, #27c93f 6px, transparent 6.5px),
-  linear-gradient(to bottom, #2a2a3a, #252535) !important;
-border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-border-radius: 12px 12px 0 0 !important;
+/* ---- 25.3 顶部 macOS 三色条 ---- */
+#article-container figure.highlight::before,
+#article-container .highlight::before {
+  content: "" !important;
+  display: block !important;
+  height: 38px !important;
+  /* 亮色顶栏 */
+  background:
+    radial-gradient(circle at 18px 19px, #ff5f56 6px, transparent 6.5px),
+    radial-gradient(circle at 40px 19px, #ffbd2e 6px, transparent 6.5px),
+    radial-gradient(circle at 62px 19px, #27c93f 6px, transparent 6.5px),
+    linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(245,247,250,0.8)) !important;
+  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+}
+[data-theme="dark"] #article-container figure.highlight::before,
+[data-theme="dark"] #article-container .highlight::before {
+  /* 暗色顶栏 */
+  background:
+    radial-gradient(circle at 18px 19px, #ff5f56 6px, transparent 6.5px),
+    radial-gradient(circle at 40px 19px, #ffbd2e 6px, transparent 6.5px),
+    radial-gradient(circle at 62px 19px, #27c93f 6px, transparent 6.5px),
+    linear-gradient(to bottom, #2a2a3a, #252535) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.08) !important;
 }
 
-/* ---- 25.4 语言标签（右上角） ---- */
-#article-container figure.highlight figcaption,
-#article-container .highlight .code-lang {
-position: absolute !important;
-top: 9px !important;
-right: 60px !important;
-left: auto !important;
-background: transparent !important;
-padding: 0 !important;
-margin: 0 !important;
-border: none !important;
-color: rgba(255, 255, 255, 0.6) !important;
-font-size: 0.78rem !important;
-font-weight: 600 !important;
-text-transform: uppercase !important;
-letter-spacing: 0.08em !important;
-z-index: 3 !important;
-line-height: 20px !important;
+/* ---- 25.4 核心修复：工具栏绝对定位，不占高度 ---- */
+#article-container .highlight-tools {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 38px !important;
+  background: transparent !important;
+  z-index: 10 !important;
+}
+#article-container .highlight-tools .expand { display: none !important; } /* 隐藏左边箭头 */
+
+/* 语言标签 */
+#article-container .highlight-tools .code-lang {
+  position: absolute !important;
+  right: 52px !important;
+  top: 0 !important;
+  line-height: 38px !important;
+  background: none !important;
+  color: rgba(0,0,0,0.45) !important;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+}
+[data-theme="dark"] #article-container .highlight-tools .code-lang {
+  color: rgba(255,255,255,0.6) !important;
 }
 
-#article-container figure.highlight figcaption a {
-display: none !important;
-}
-
-/* ---- 25.5 强制隐藏所有行号 ---- */
-#article-container .highlight .gutter,
-#article-container .highlight td.gutter,
-#article-container figure.highlight .gutter,
-#article-container .hljs-ln-numbers,
-#article-container .line-numbers-rows,
-#article-container .highlight table .gutter,
-#article-container pre .line-number,
-#article-container .highlight .line-number {
-display: none !important;
-width: 0 !important;
-padding: 0 !important;
-border: none !important;
-}
-
-/* ---- 25.6 表格结构修复（hexo highlight 用 table 渲染） ---- */
-#article-container .highlight table {
-width: 100% !important;
-margin: 0 !important;
-padding: 0 !important;
-border: none !important;
-border-collapse: collapse !important;
-background: transparent !important;
-display: table !important;
-}
-
-#article-container .highlight table tr,
-#article-container .highlight table tbody {
-background: transparent !important;
-border: none !important;
-}
-
-#article-container .highlight table td {
-border: none !important;
-background: transparent !important;
-padding: 0 !important;
-}
-
-/* ---- 25.7 代码内容区 ---- */
-#article-container .highlight .code,
-#article-container .highlight td.code,
-#article-container figure.highlight pre,
-#article-container pre.highlight code,
-#article-container .highlight > pre {
-display: block !important;
-width: 100% !important;
-padding: 18px 22px !important;
-margin: 0 !important;
-background: transparent !important;
-border: none !important;
-border-radius: 0 !important;
-overflow-x: auto !important;
-box-shadow: none !important;
-}
-
-#article-container .highlight .code pre,
-#article-container .highlight .code .line,
-#article-container figure.highlight pre code,
-#article-container pre code {
-color: #e8ecf4 !important;
-font-size: 0.9rem !important;
-line-height: 1.7 !important;
-font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, Monaco, monospace !important;
-white-space: pre !important;
-background: transparent !important;
-padding: 0 !important;
-margin: 0 !important;
-border: none !important;
-}
-
-/* ---- 25.8 复制按钮（右上） ---- */
-#article-container .highlight-tools,
-#article-container .highlight .copy-notice {
-background: transparent !important;
-}
-
-#article-container .highlight .copy-button,
+/* 复制按钮 */
 #article-container .highlight-tools .copy-button {
-position: absolute !important;
-top: 7px !important;
-right: 16px !important;
-width: 26px !important;
-height: 26px !important;
-background: rgba(255, 255, 255, 0.08) !important;
-border: 1px solid rgba(255, 255, 255, 0.12) !important;
-border-radius: 6px !important;
-color: rgba(255, 255, 255, 0.7) !important;
-cursor: pointer !important;
-z-index: 3 !important;
-display: flex !important;
-align-items: center !important;
-justify-content: center !important;
-font-size: 0.75rem !important;
-transition: all 0.25s var(--lk-ease) !important;
+  position: absolute !important;
+  right: 12px !important;
+  top: 6px !important;
+  width: 26px !important;
+  height: 26px !important;
+  background: rgba(0,0,0,0.04) !important;
+  border: 1px solid rgba(0,0,0,0.08) !important;
+  color: rgba(0,0,0,0.55) !important;
+  border-radius: 6px !important;
 }
-
-#article-container .highlight .copy-button:hover,
 #article-container .highlight-tools .copy-button:hover {
-background: var(--lk-accent) !important;
-color: #fff !important;
-border-color: var(--lk-accent) !important;
+  background: var(--lk-accent) !important;
+  color: #fff !important;
+}
+[data-theme="dark"] #article-container .highlight-tools .copy-button {
+  background: rgba(255,255,255,0.08) !important;
+  border-color: rgba(255,255,255,0.12) !important;
+  color: rgba(255,255,255,0.7) !important;
 }
 
-/* ---- 25.9 收起/展开箭头按钮 ---- */
-#article-container .highlight-tools .expand,
-#article-container .highlight .expand {
-position: absolute !important;
-top: 11px !important;
-left: 18px !important;
-color: rgba(255, 255, 255, 0.5) !important;
-cursor: pointer !important;
-z-index: 3 !important;
-display: none !important; /* macOS 三色圆点占位，隐藏箭头 */
+/* ---- 25.5 强制隐藏行号 ---- */
+#article-container .highlight .gutter,
+#article-container figure.highlight .gutter { display: none !important; }
+
+/* ---- 25.6 代码内容区【已修复空白】---- */
+#article-container figure.highlight table { margin: 0 !important; width: 100% !important; }
+#article-container figure.highlight .code pre,
+#article-container .highlight pre {
+  margin: 0 !important;
+  padding: 12px 20px 16px !important; /* 之前是18px，改成12px紧贴顶栏 */
+  background: transparent !important;
+  color: var(--lk-text) !important;
+  font-size: 0.9rem !important;
+  line-height: 1.7 !important;
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace !important;
+}
+[data-theme="dark"] #article-container figure.highlight .code pre {
+  color: #e8ecf4 !important;
 }
 
-/* ---- 25.10 行内代码 inline code ---- */
-#article-container :not(pre) > code {
-background: rgba(74, 144, 226, 0.12) !important;
-color: #c92a6a !important;
-padding: 2px 8px !important;
-margin: 0 4px !important;
-border-radius: 6px !important;
-font-size: 0.88em !important;
-font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, Monaco, monospace !important;
-border: 1px solid rgba(74, 144, 226, 0.2) !important;
-white-space: nowrap;
-}
+/* ---- 25.7 语法高亮 - 亮暗两套 ---- */
+/* 亮色 GitHub 风格 */
+#article-container .highlight .keyword { color: #d73a49 !important; }
+#article-container .highlight .string { color: #032f62 !important; }
+#article-container .highlight .comment { color: #6a737d !important; font-style: italic; }
+#article-container .highlight .number { color: #005cc5 !important; }
+#article-container .highlight .function { color: #6f42c1 !important; }
+/* 暗色 Monokai */
+[data-theme="dark"] #article-container .highlight .keyword { color: #ff79c6 !important; }
+[data-theme="dark"] #article-container .highlight .string { color: #f1fa8c !important; }
+[data-theme="dark"] #article-container .highlight .comment { color: #6272a4 !important; }
+[data-theme="dark"] #article-container .highlight .number { color: #bd93f9 !important; }
+[data-theme="dark"] #article-container .highlight .function { color: #50fa7b !important; }
 
-[data-theme="dark"] #article-container :not(pre) > code {
-background: rgba(126, 184, 255, 0.15) !important;
-color: #ff8fb1 !important;
-border-color: rgba(126, 184, 255, 0.25) !important;
+/* ---- 25.8 行内代码 ---- */
+#article-container code:not([class*="hljs"]):not(.hljs) {
+  background: var(--lk-accent-soft) !important;
+  color: #c92a6a !important;
+  padding: 2px 6px !important;
+  border-radius: 6px !important;
+  border: 1px solid rgba(74,144,226,0.2) !important;
 }
-
-/* ---- 25.11 代码块横向滚动条 ---- */
-#article-container .highlight .code::-webkit-scrollbar,
-#article-container figure.highlight pre::-webkit-scrollbar {
-height: 6px;
+[data-theme="dark"] #article-container code:not([class*="hljs"]):not(.hljs) {
+  color: #ff8fb1 !important;
 }
-
-#article-container .highlight .code::-webkit-scrollbar-thumb,
-#article-container figure.highlight pre::-webkit-scrollbar-thumb {
-background: rgba(255, 255, 255, 0.2);
-border-radius: 3px;
-}
-
-#article-container .highlight .code::-webkit-scrollbar-thumb:hover,
-#article-container figure.highlight pre::-webkit-scrollbar-thumb:hover {
-background: rgba(255, 255, 255, 0.4);
-}
-
-/* ---- 25.12 语法高亮配色（Monokai 风）---- */
-#article-container .highlight .keyword,
-#article-container .highlight .hljs-keyword { color: #ff79c6 !important; }
-#article-container .highlight .string,
-#article-container .highlight .hljs-string { color: #f1fa8c !important; }
-#article-container .highlight .comment,
-#article-container .highlight .hljs-comment { color: #6272a4 !important; font-style: italic; }
-#article-container .highlight .number,
-#article-container .highlight .hljs-number { color: #bd93f9 !important; }
-#article-container .highlight .function,
-#article-container .highlight .hljs-function,
-#article-container .highlight .hljs-title { color: #50fa7b !important; }
-#article-container .highlight .tag,
-#article-container .highlight .hljs-tag { color: #ff79c6 !important; }
-#article-container .highlight .attr,
-#article-container .highlight .hljs-attr { color: #50fa7b !important; }
-#article-container .highlight .built_in,
-#article-container .highlight .hljs-built_in { color: #8be9fd !important; }
 
 /* ============ 26. MathJax 公式滚动 ============ */
 mjx-container[display="true"],
