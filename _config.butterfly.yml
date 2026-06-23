@@ -32,7 +32,7 @@ social:
   fab fa-github: https://github.com/loogeking || Github
 
 # ========== 首页顶部 Banner ==========
-index_img: /img/articles/Python学习笔记.mp4           # 首页 Banner
+index_img:            # 首页 Banner
 default_top_img:       # 默认顶部图（文章页）
 archive_img: 
 tag_img: 
@@ -66,7 +66,7 @@ cover:
   archives_enable: false         # 归档页不显示
   position: both                 # 封面位置：左/右交替
   default_cover:
-    - /img/articles/default-cover.png     # 没有封面时的默认图
+    - https://i.postimg.cc/0NNztsVV/default-cover.jpg     # 没有封面时的默认图
 
 # ========== 文章元信息 ==========
 post_meta:

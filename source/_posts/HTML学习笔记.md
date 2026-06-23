@@ -5,7 +5,7 @@ tags:
   - HTML
 categories:
   - 前端开发
-cover: /img/articles/HTML.png
+cover: https://i.postimg.cc/Gpp4MCXz/HTML.jpg
 ---
 # HTML学习
 

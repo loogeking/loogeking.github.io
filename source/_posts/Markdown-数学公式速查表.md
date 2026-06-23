@@ -3,7 +3,7 @@ title: Markdown 数学公式速查表
 date: 2026-06-21 08:40:52
 tags:
   - 数学公式
-cover: /img/articles/数学公式.png
+cover: https://i.postimg.cc/6Q1ygmS6/shu-xue-gong-shi.jpg
 ---
 #  Markdown 数学公式速查表（LaTeX 语法）
 

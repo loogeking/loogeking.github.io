@@ -5,7 +5,7 @@ tags:
   - CSS
 categories:
   - 前端开发
-cover: /img/articles/CSS.png
+cover: https://i.postimg.cc/1zz8WQvJ/CSS.jpg
 ---
 # CSS学习笔记
 ---

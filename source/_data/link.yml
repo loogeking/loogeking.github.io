@@ -12,7 +12,7 @@
   link_list:
     - name: Rhine's Blog
       link: https://rhine.bbroot.com/
-      avatar: /img/links/罗.png
+      avatar: https://i.postimg.cc/nLtXJmV5/luo.jpg
       descr: 朋友的博客，记录学习与生活的点滴。
 
 - class_name: 网站链接
@@ -20,10 +20,10 @@
   link_list:
     - name: Butterfly 主题
       link: https://butterfly.js.org
-      avatar: /img/links/link1.png
+      avatar: https://i.postimg.cc/yNzDHR6b/link2.jpg
       descr: 一个简洁优雅的 Hexo 主题，文档完善，社区活跃。
 
     - name: Hexo 官网
       link: https://hexo.io/zh-cn/
-      avatar: /img/links/link2.png
+      avatar: https://i.postimg.cc/KYy12Tcd/link1.jpg
       descr: 快速、简洁且高效的博客框架，基于 Node.js。

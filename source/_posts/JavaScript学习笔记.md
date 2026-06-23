@@ -5,7 +5,7 @@ tags:
   - JavaScript
 categories: 
   - 前端开发
-cover: /img/articles/Javascript.png
+cover: https://i.postimg.cc/TPPKk6tH/Javascript.jpg
 ---
 # JavaScript 学习笔记
 

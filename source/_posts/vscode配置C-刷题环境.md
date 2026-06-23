@@ -1,7 +1,7 @@
 ---
 title: vscode配置C++刷题环境
 date: 2026-06-20 21:34:49
-cover: /img/articles/vscode.png
+cover: https://i.postimg.cc/KYsRwHW9/vscode.jpg
 tags:
   - vscode
   - C++
