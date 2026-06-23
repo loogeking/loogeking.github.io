@@ -4,285 +4,432 @@
  * ======================================================================== */
 
 (function () {
-    'use strict';
-  
-    /* ============ 配置区 ============ */
-    const CONFIG = {
-      bodyBackground: 'https://i.postimg.cc/8CwCW0DC/background.jpg',
-      homeVideo: 'https://video-web-cn.douyin.com/65b8bc18243516e7371fae140bef599c/6a3a7b3d/tos-cn-ve-15/o4Q80oODeEbCsA2fFLIAxLICC2GHS6gHweyfNI?a=6383&ch=0&cr=3&dr=0&cd=0%7C0%7C0%7C3&cv=1&br=1474&bt=1474&cs=0&ds=3&ft=LXhGbL998xXYu4hmD0P5fQhlpPiXKUwr9VJEBcTGrbPD-Ipz&mime_type=video_mp4&qs=0&rc=NXZpTGRTaFBnKWwxZnNoaGRmNWhoODlpPDY3PDhnaTYzOkBpajxwNms5cmU5OzMzNGkzM0BTbGt2aXFEOmp3X2heK2p0OiNfNWE2Ni4tXl8xYzQzYC42YSNgYnBiMmRzbHFhLS1kLS9zcw%3D%3D&btag=80000200008000&cquery=100H_100K_100o_100w_100B&dy_q=1782213925&feature_id=f5241e7604dff1d9d6c943fd20bd51a2&l=202606231925257C94EF4B4917CA630BCF&ply_type=3&policy=eyJ2bSI6MywidWlkIjoiNjQwMzg1NDg2OTU4MTYwIn0%3D',
-      homePoster: 'https://i.postimg.cc/8CwCW0DC/background.jpg',
-      enableVideo: true,
-      mobileBreakpoint: 768,
-  
-      // 懒加载入场目标选择器（文章正文不参与，避免 opacity:0 导致看不见）
-      revealSelectors: [
-        '#recent-posts .recent-post-item',
-        '#aside-content .card-widget',
-        '#archive .article-sort-item:not(.year)',
-        '.relatedPosts',
-        '#pagination',
-        '.tag-cloud-list',
-        '.category-lists',
-        '.flink-list-item',
-        '#page #article-container'
-      ]
-    };
-  
-    /* ============ 1. 全局背景图 ============ */
-    function setBodyBackground() {
-      if (CONFIG.bodyBackground) {
-        document.documentElement.style.setProperty(
-          '--lk-body-bg',
-          `url(${CONFIG.bodyBackground})`
-        );
+  'use strict';
+
+  /* ============ 配置区 ============ */
+  const CONFIG = {
+    bodyBackground: 'https://i.postimg.cc/8CwCW0DC/background.jpg',
+    mobileBackground: 'https://i.postimg.cc/y89bxDc0/zhe-feng-bi-zhi-shan-qiu-yan-shi-qing-tian.jpg',
+    homeVideo: 'https://video-web-cn.douyin.com/65b8bc18243516e7371fae140bef599c/6a3a7b3d/tos-cn-ve-15/o4Q80oODeEbCsA2fFLIAxLICC2GHS6gHweyfNI?a=6383&ch=0&cr=3&dr=0&cd=0%7C0%7C0%7C3&cv=1&br=1474&bt=1474&cs=0&ds=3&ft=LXhGbL998xXYu4hmD0P5fQhlpPiXKUwr9VJEBcTGrbPD-Ipz&mime_type=video_mp4&qs=0&rc=NXZpTGRTaFBnKWwxZnNoaGRmNWhoODlpPDY3PDhnaTYzOkBpajxwNms5cmU5OzMzNGkzM0BTbGt2aXFEOmp3X2heK2p0OiNfNWE2Ni4tXl8xYzQzYC42YSNgYnBiMmRzbHFhLS1kLS9zcw%3D%3D&btag=80000200008000&cquery=100H_100K_100o_100w_100B&dy_q=1782213925&feature_id=f5241e7604dff1d9d6c943fd20bd51a2&l=202606231925257C94EF4B4917CA630BCF&ply_type=3&policy=eyJ2bSI6MywidWlkIjoiNjQwMzg1NDg2OTU4MTYwIn0%3D', // 建议迁到 OSS
+    homePoster: 'https://i.postimg.cc/8CwCW0DC/background.jpg',
+    mobileHomeVideo: 'https://www.douyin.com/aweme/v1/play/?file_id=ce4b4c976ea94041b46cf3645866b5d6&is_play_url=1&line=0&ply_type=3&sign=50b6e76aa41d483cfef049c33e652944&source=PackSourceEnum_PRIVATE_PUBLISH&video_id=v0d00fg10000d8t7scfog65gim6bcemg',
+
+    enableVideo: true,
+    mobileBreakpoint: 768,
+
+    // 懒加载入场目标选择器
+    // 注意：文章正文不参与，避免 opacity:0 导致看不见
+    revealSelectors: [
+      '#recent-posts .recent-post-item',
+      '#aside-content .card-widget',
+      '#archive .article-sort-item:not(.year)',
+      '.relatedPosts',
+      '#pagination',
+      '.tag-cloud-list',
+      '.category-lists',
+      '.flink-list-item'
+      // '#page #article-container'  ← 已移除，文章正文不参与懒加载
+    ]
+  };
+
+  /* ============ 1. 全局背景图（区分移动端/桌面端）============ */
+  function setBodyBackground() {
+    const isMobile = window.innerWidth < CONFIG.mobileBreakpoint;
+    const bg = isMobile && CONFIG.mobileBackground
+      ? CONFIG.mobileBackground
+      : CONFIG.bodyBackground;
+
+    if (bg) {
+      document.documentElement.style.setProperty(
+        '--lk-body-bg',
+        `url(${bg})`
+      );
+    }
+  }
+
+  // 窗口大小变化时切换背景图
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(setBodyBackground, 300);
+  });
+
+  /* ============ 2. 判断首页 ============ */
+  function isHomePage() {
+    const p = location.pathname;
+    return p === '/' || p === '/index.html' || /^\/page\/\d+\/?$/.test(p);
+  }
+
+  /* ============ 3. 读取页面级视频配置 ============ */
+  function getPageVideoConfig() {
+    const v = document.querySelector('meta[name="lk-top-video"]');
+    const p = document.querySelector('meta[name="lk-top-poster"]');
+    if (v && v.content) {
+      return { video: v.content, poster: p ? p.content : '' };
+    }
+    return null;
+  }
+
+  /* ============ 4. 注入视频 Banner ============ */
+  function injectVideoBanner() {
+    if (!CONFIG.enableVideo) return;
+
+    const header = document.getElementById('page-header');
+    if (!header) return;
+
+    // 清理旧的
+    const old = header.querySelector('.lk-video-banner');
+    if (old) {
+      if (old._lkObserver) old._lkObserver.disconnect();
+      old.remove();
+    }
+
+    const isMobile = window.innerWidth < CONFIG.mobileBreakpoint;
+
+    let cfg = getPageVideoConfig();
+    if (!cfg && isHomePage()) {
+      cfg = {
+        video: CONFIG.homeVideo,
+        poster: CONFIG.homePoster
+      };
+    }
+    if (!cfg) {
+      console.log('[Custom] 当前页面无视频配置');
+      return;
+    }
+
+    // 移动端处理
+    if (isMobile) {
+      if (CONFIG.mobileHomeVideo) {
+        // 有移动端专用视频
+        console.log('[Custom] 移动端注入竖版视频');
+        cfg.video = CONFIG.mobileHomeVideo;
+        createVideoBanner(header, cfg);
+      } else {
+        // 没有移动端视频，只注入海报
+        console.log('[Custom] 移动端注入静态海报');
+        createPosterBanner(header, cfg);
       }
+      return;
     }
-  
-    /* ============ 2. 判断首页 ============ */
-    function isHomePage() {
-      const p = location.pathname;
-      return p === '/' || p === '/index.html' || /^\/page\/\d+\/?$/.test(p);
+
+    // 桌面端正常注入视频
+    if (!cfg.video) {
+      console.log('[Custom] 无视频源');
+      return;
     }
-  
-    /* ============ 3. 读取页面级视频配置 ============ */
-    function getPageVideoConfig() {
-      const v = document.querySelector('meta[name="lk-top-video"]');
-      const p = document.querySelector('meta[name="lk-top-poster"]');
-      if (v && v.content) {
-        return { video: v.content, poster: p ? p.content : '' };
+    console.log('[Custom] 注入视频:', cfg.video);
+    createVideoBanner(header, cfg);
+  }
+
+  /* 移动端只注入海报图 */
+  function createPosterBanner(header, cfg) {
+    const banner = document.createElement('div');
+    banner.className = 'lk-video-banner';
+
+    const poster = document.createElement('div');
+    poster.className = 'lk-video-poster';
+    if (cfg.poster) {
+      poster.style.backgroundImage = `url(${cfg.poster})`;
+    }
+    poster.style.opacity = '1';
+
+    banner.appendChild(poster);
+    header.insertBefore(banner, header.firstChild);
+  }
+
+  function createVideoBanner(header, cfg) {
+    const banner = document.createElement('div');
+    banner.className = 'lk-video-banner';
+
+    const poster = document.createElement('div');
+    poster.className = 'lk-video-poster';
+    if (cfg.poster) poster.style.backgroundImage = `url(${cfg.poster})`;
+
+    const video = document.createElement('video');
+    video.src = cfg.video;
+    video.autoplay = true;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.preload = 'auto';
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+
+    video.addEventListener('loadeddata', () => {
+      console.log('[Custom] ✓ 视频加载成功');
+      video.play().catch(err => console.warn('[Custom] 自动播放失败:', err));
+    });
+
+    video.addEventListener('error', () => {
+      console.error('[Custom] ✗ 视频加载失败:', cfg.video);
+      banner.classList.add('is-paused');
+    });
+
+    banner.appendChild(poster);
+    banner.appendChild(video);
+    header.insertBefore(banner, header.firstChild);
+
+    observeBannerVisibility(banner, video);
+  }
+
+  function observeBannerVisibility(banner, video) {
+    if (!('IntersectionObserver' in window)) return;
+    const ob = new IntersectionObserver(
+      entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting && e.intersectionRatio > 0.2) {
+            banner.classList.remove('is-paused');
+            video.play().catch(() => {});
+          } else {
+            banner.classList.add('is-paused');
+            video.pause();
+          }
+        });
+      },
+      { threshold: [0, 0.2, 0.5, 1] }
+    );
+    ob.observe(banner);
+    banner._lkObserver = ob;
+  }
+
+  /* ============ 5. Banner 滚动过渡效果 ============ */
+  let scrollRafId = null;
+  function handleBannerScroll() {
+    const header = document.getElementById('page-header');
+    if (!header) return;
+
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const headerHeight = header.offsetHeight;
+
+    if (scrollTop > headerHeight * 0.3) {
+      header.classList.add('is-scrolled');
+    } else {
+      header.classList.remove('is-scrolled');
+    }
+  }
+
+  function onScroll() {
+    if (scrollRafId) return;
+    scrollRafId = requestAnimationFrame(() => {
+      handleBannerScroll();
+      scrollRafId = null;
+    });
+  }
+
+  /* ============ 6. 卡片滚动懒加载入场（已修复移动端问题）============ */
+  let revealObserver = null;
+
+  function setupRevealAnimation() {
+    if (revealObserver) {
+      revealObserver.disconnect();
+      revealObserver = null;
+    }
+
+    const isPostPage = !!document.getElementById('post');
+    const isMobile = window.innerWidth < CONFIG.mobileBreakpoint;
+
+    // 移动端文章页：直接显示所有内容，不做任何动画
+    if (isMobile && isPostPage) {
+      document.querySelectorAll('.lk-reveal').forEach(el => {
+        el.classList.add('lk-visible');
+      });
+      return;
+    }
+
+    if (!('IntersectionObserver' in window)) {
+      document.querySelectorAll('.lk-reveal').forEach(el => {
+        el.classList.add('lk-visible');
+      });
+      return;
+    }
+
+    revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target;
+
+            if (isMobile) {
+              // 移动端：立即显示，不加延迟
+              el.classList.add('lk-visible');
+            } else {
+              // 桌面端：保留错峰效果
+              const allRevealing = document.querySelectorAll('.lk-reveal:not(.lk-visible)');
+              let idx = 0;
+              allRevealing.forEach((item, i) => {
+                if (item === el) idx = i;
+              });
+              const delay = Math.min(idx * 60, 300);
+              setTimeout(() => {
+                el.classList.add('lk-visible');
+              }, delay);
+            }
+            revealObserver.unobserve(el);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: isMobile ? '0px 0px 0px 0px' : '0px 0px -5% 0px',
+        threshold: isMobile ? 0.01 : 0.05
       }
-      return null;
-    }
-  
-    /* ============ 4. 注入视频 Banner ============ */
-    function injectVideoBanner() {
-      if (!CONFIG.enableVideo) return;
-      if (window.innerWidth < CONFIG.mobileBreakpoint) {
-        console.log('[Custom] 移动端跳过视频');
+    );
+
+    const selector = CONFIG.revealSelectors.join(', ');
+    document.querySelectorAll(selector).forEach(el => {
+      if (el.classList.contains('lk-visible')) return;
+
+      el.classList.add('lk-reveal');
+
+      // 已经在视口内的元素：立即显示
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.classList.add('lk-visible');
         return;
       }
-  
-      const header = document.getElementById('page-header');
-      if (!header) return;
-  
-      // 清理旧的
-      const old = header.querySelector('.lk-video-banner');
-      if (old) {
-        if (old._lkObserver) old._lkObserver.disconnect();
-        old.remove();
-      }
-  
-      let cfg = getPageVideoConfig();
-      if (!cfg && isHomePage()) {
-        cfg = { video: CONFIG.homeVideo, poster: CONFIG.homePoster };
-      }
-      if (!cfg || !cfg.video) {
-        console.log('[Custom] 当前页面无视频配置');
-        return;
-      }
-  
-      console.log('[Custom] 注入视频:', cfg.video);
-      createVideoBanner(header, cfg);
-    }
-  
-    function createVideoBanner(header, cfg) {
-      const banner = document.createElement('div');
-      banner.className = 'lk-video-banner';
-  
+
+      revealObserver.observe(el);
+    });
+  }
+
+  /* ============ 9. 文章封面视频支持 ============ */
+  function enableCoverVideos() {
+    document.querySelectorAll('[data-cover-video]').forEach(el => {
+      if (el.dataset.lkProcessed) return;
+      el.dataset.lkProcessed = '1';
+
+      const v = el.dataset.coverVideo;
+      const p = el.dataset.coverPoster || el.src;
+      if (!v) return;
+
+      const wrap = document.createElement('div');
+      wrap.className = 'lk-video-banner';
+      wrap.style.cssText = 'position:relative;width:100%;height:100%;';
+
       const poster = document.createElement('div');
       poster.className = 'lk-video-poster';
-      if (cfg.poster) poster.style.backgroundImage = `url(${cfg.poster})`;
-  
+      poster.style.backgroundImage = `url(${p})`;
+
       const video = document.createElement('video');
-      video.src = cfg.video;
+      video.src = v;
       video.autoplay = true;
       video.muted = true;
       video.loop = true;
       video.playsInline = true;
-      video.preload = 'auto';
       video.setAttribute('muted', '');
       video.setAttribute('playsinline', '');
-  
-      video.addEventListener('loadeddata', () => {
-        console.log('[Custom] ✓ 视频加载成功');
-        video.play().catch(err => console.warn('[Custom] 自动播放失败:', err));
-      });
-  
-      video.addEventListener('error', () => {
-        console.error('[Custom] ✗ 视频加载失败:', cfg.video);
-        banner.classList.add('is-paused');
-      });
-  
-      banner.appendChild(poster);
-      banner.appendChild(video);
-      header.insertBefore(banner, header.firstChild);
-  
-      observeBannerVisibility(banner, video);
-    }
-  
-    function observeBannerVisibility(banner, video) {
-      if (!('IntersectionObserver' in window)) return;
-      const ob = new IntersectionObserver(
-        entries => {
-          entries.forEach(e => {
-            if (e.isIntersecting && e.intersectionRatio > 0.2) {
-              banner.classList.remove('is-paused');
-              video.play().catch(() => {});
-            } else {
-              banner.classList.add('is-paused');
-              video.pause();
-            }
-          });
-        },
-        { threshold: [0, 0.2, 0.5, 1] }
-      );
-      ob.observe(banner);
-      banner._lkObserver = ob;
-    }
-  
-    /* ============ 5. Banner 滚动过渡效果 ============ */
-    let scrollRafId = null;
-    function handleBannerScroll() {
-      const header = document.getElementById('page-header');
-      if (!header) return;
-  
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const headerHeight = header.offsetHeight;
-  
-      // 滚过 30% 时给 Banner 加效果
-      if (scrollTop > headerHeight * 0.3) {
-        header.classList.add('is-scrolled');
-      } else {
-        header.classList.remove('is-scrolled');
-      }
-    }
-  
-    function onScroll() {
-      if (scrollRafId) return;
-      scrollRafId = requestAnimationFrame(() => {
-        handleBannerScroll();
-        scrollRafId = null;
-      });
-    }
-  
-    /* ============ 6. 卡片滚动懒加载入场 ============ */
-    let revealObserver = null;
-  
-    function setupRevealAnimation() {
-      // 断开旧的 observer（PJAX 切换时）
-      if (revealObserver) {
-        revealObserver.disconnect();
-      }
-  
-      if (!('IntersectionObserver' in window)) {
-        // 不支持 IO 的浏览器：直接全部显示
-        document.querySelectorAll('.lk-reveal').forEach(el => {
-          el.classList.add('lk-visible');
-        });
-        return;
-      }
-  
-      revealObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry, idx) => {
-            if (entry.isIntersecting) {
-              // 加一点错峰延迟，让多个同时进入的元素依次出现
-              const el = entry.target;
-              const delay = Math.min(idx * 80, 400);
-              setTimeout(() => {
-                el.classList.add('lk-visible');
-              }, delay);
-              revealObserver.unobserve(el); // 触发后就不再观察，避免重复
-            }
-          });
-        },
-        {
-          root: null,
-          rootMargin: '0px 0px -10% 0px', // 进入视口 10% 时触发
-          threshold: 0.1
-        }
-      );
-  
-      // 给目标元素加上初始类并开始观察
-      const selector = CONFIG.revealSelectors.join(', ');
-      document.querySelectorAll(selector).forEach(el => {
-        if (el.dataset.lkRevealReady) return;
-        el.dataset.lkRevealReady = '1';
-        el.classList.add('lk-reveal');
 
-        // 已在视口内的元素立即显示，避免内容空白
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.95 && rect.bottom > 0) {
-          el.classList.add('lk-visible');
-          return;
-        }
+      wrap.appendChild(poster);
+      wrap.appendChild(video);
+      el.parentNode.replaceChild(wrap, el);
+      observeBannerVisibility(wrap, video);
+    });
+  }
 
-        revealObserver.observe(el);
-      });
-    }
+  /* ============ 10. 初始化 ============ */
+  function init() {
+    console.log('[Custom] custom.js loaded ✓');
+    setBodyBackground();
+    injectVideoBanner();
+    enableCoverVideos();
+    setupRevealAnimation();
+    handleBannerScroll();
+    setupMobileTocButton();
 
-    /* ============ 9. 文章封面视频支持 ============ */
-    function enableCoverVideos() {
-      document.querySelectorAll('[data-cover-video]').forEach(el => {
-        if (el.dataset.lkProcessed) return;
-        el.dataset.lkProcessed = '1';
+    window.removeEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  function reinit() {
+    console.log('[Custom] PJAX reloaded');
+    setBodyBackground();
+    injectVideoBanner();
+    enableCoverVideos();
+    setupRevealAnimation();
+    handleBannerScroll();
+    setupMobileTocButton()
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  document.addEventListener('pjax:complete', reinit);
+})();
+
+/* ============ 11. 移动端浮动目录按钮 ============ */
+function setupMobileTocButton() {
+  // 只在移动端 + 文章页显示
+  const isMobile = window.innerWidth < CONFIG.mobileBreakpoint;
+  const isPostPage = !!document.getElementById('post');
   
-        const v = el.dataset.coverVideo;
-        const p = el.dataset.coverPoster || el.src;
-        if (!v) return;
-  
-        const wrap = document.createElement('div');
-        wrap.className = 'lk-video-banner';
-        wrap.style.cssText = 'position:relative;width:100%;height:100%;';
-  
-        const poster = document.createElement('div');
-        poster.className = 'lk-video-poster';
-        poster.style.backgroundImage = `url(${p})`;
-  
-        const video = document.createElement('video');
-        video.src = v;
-        video.autoplay = true;
-        video.muted = true;
-        video.loop = true;
-        video.playsInline = true;
-        video.setAttribute('muted', '');
-        video.setAttribute('playsinline', '');
-  
-        wrap.appendChild(poster);
-        wrap.appendChild(video);
-        el.parentNode.replaceChild(wrap, el);
-        observeBannerVisibility(wrap, video);
-      });
+  // 清理旧按钮
+  const oldBtn = document.getElementById('lk-mobile-toc-btn');
+  if (oldBtn) oldBtn.remove();
+  const oldPanel = document.getElementById('lk-mobile-toc-panel');
+  if (oldPanel) oldPanel.remove();
+  const oldMask = document.getElementById('lk-mobile-toc-mask');
+  if (oldMask) oldMask.remove();
+
+  if (!isMobile || !isPostPage) return;
+
+  // 检查页面是否有目录内容
+  const tocContent = document.querySelector('#card-toc .toc-content, .toc-content');
+  if (!tocContent || !tocContent.innerHTML.trim()) {
+    console.log('[Custom] 文章无目录');
+    return;
+  }
+
+  // 创建悬浮按钮
+  const btn = document.createElement('button');
+  btn.id = 'lk-mobile-toc-btn';
+  btn.innerHTML = '<i class="fas fa-list-ul"></i>';
+  btn.setAttribute('aria-label', '目录');
+  document.body.appendChild(btn);
+
+  // 创建遮罩
+  const mask = document.createElement('div');
+  mask.id = 'lk-mobile-toc-mask';
+  document.body.appendChild(mask);
+
+  // 创建目录面板
+  const panel = document.createElement('div');
+  panel.id = 'lk-mobile-toc-panel';
+  panel.innerHTML = `
+    <div class="lk-toc-header">
+      <span>目录</span>
+      <button class="lk-toc-close" aria-label="关闭">&times;</button>
+    </div>
+    <div class="lk-toc-body"></div>
+  `;
+  document.body.appendChild(panel);
+
+  // 把目录内容克隆进去
+  const tocBody = panel.querySelector('.lk-toc-body');
+  tocBody.innerHTML = tocContent.innerHTML;
+
+  // 打开
+  btn.addEventListener('click', () => {
+    panel.classList.add('is-open');
+    mask.classList.add('is-open');
+  });
+
+  // 关闭
+  const close = () => {
+    panel.classList.remove('is-open');
+    mask.classList.remove('is-open');
+  };
+  mask.addEventListener('click', close);
+  panel.querySelector('.lk-toc-close').addEventListener('click', close);
+
+  // 点目录项后自动关闭面板
+  tocBody.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (link) {
+      setTimeout(close, 200);
     }
-  
-    /* ============ 10. 初始化 ============ */
-    function init() {
-      console.log('[Custom] custom.js loaded ✓');
-      setBodyBackground();
-      injectVideoBanner();
-      enableCoverVideos();
-      setupRevealAnimation();
-      handleBannerScroll();
-  
-      // 绑定滚动事件（用 passive 提升性能）
-      window.removeEventListener('scroll', onScroll);
-      window.addEventListener('scroll', onScroll, { passive: true });
-    }
-  
-    function reinit() {
-      console.log('[Custom] PJAX reloaded');
-      setBodyBackground();
-      injectVideoBanner();
-      enableCoverVideos();
-      setupRevealAnimation();
-      handleBannerScroll();
-    }
-  
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
-  
-    document.addEventListener('pjax:complete', reinit);
-  })();
+  });
+}

@@ -21,7 +21,7 @@ favicon: /img/favicon.png
 # ========== 头像 ==========
 avatar:
   img: /img/avatar.png
-  effect: false  # 头像旋转效果，先关掉
+  effect: false
 
 # ========== 站点信息（侧边栏卡片）==========
 disable_total_site_data: false
@@ -32,28 +32,27 @@ social:
   fab fa-github: https://github.com/loogeking || Github
 
 # ========== 首页顶部 Banner ==========
-index_img:            # 首页 Banner
-default_top_img:       # 默认顶部图（文章页）
-archive_img: 
-tag_img: 
+index_img:
+default_top_img:
+archive_img:
+tag_img:
 tag_per_img:
-category_img: 
+category_img:
 category_per_img:
-link_top_img: 
+link_top_img:
 
-# 首页 Banner 文字（打字机效果）
 disable_top_img: false
-default_top_img_height: 100      # 首页 Banner 100vh 全屏
-top_img_height: 60               # 其他页面 60vh
-index_site_info_top_img:         # 站点信息卡片背景
+default_top_img_height: 100
+top_img_height: 60
+index_site_info_top_img:
 sidebar_bg_img:
 
 # ========== 首页副标题（打字机效果）==========
 subtitle:
   enable: true
-  effect: true                   # 打字机效果
-  loop: true                     # 循环
-  source: false                  # 不从一言获取
+  effect: true
+  loop: true
+  source: false
   sub:
     - 代码改变世界
     - 保持热爱，奔赴山海
@@ -61,18 +60,18 @@ subtitle:
 
 # ========== 文章封面 ==========
 cover:
-  index_enable: true             # 首页文章卡片显示封面
-  aside_enable: true             # 侧边栏最新文章显示封面
-  archives_enable: false         # 归档页不显示
-  position: both                 # 封面位置：左/右交替
+  index_enable: true
+  aside_enable: true
+  archives_enable: false
+  position: both
   default_cover:
-    - https://i.postimg.cc/0NNztsVV/default-cover.jpg     # 没有封面时的默认图
+    - https://i.postimg.cc/0NNztsVV/default-cover.jpg
 
 # ========== 文章元信息 ==========
 post_meta:
   page:
-    date_type: both              # 显示发表+更新时间
-    date_format: relative        # 相对时间（1天前）
+    date_type: both
+    date_format: relative
     categories: true
     tags: true
     label: true
@@ -105,7 +104,7 @@ aside:
   hide: false
   button: true
   mobile: true
-  position: right                # 右侧
+  position: right
   display:
     archive: true
     tag: true
@@ -124,8 +123,8 @@ aside:
   card_recent_post:
     enable: true
     limit: 5
-    sort: date                   # 按日期排序
-    sort_order:                  # desc 倒序
+    sort: date
+    sort_order:
   card_categories:
     enable: true
     limit: 8
@@ -150,44 +149,55 @@ aside:
     sort_order:
 
 # ========== 加载动画 ==========
+# 修改：移动端加载动画会延迟首屏，改为关闭
+# 如果你很需要这个动画，可以改回 true，但移动端体验会差一些
 preloader:
-  enable: true
+  enable: false
   custom_message: 加载中...
-  pace: false                    # 顶部进度条
+  pace: false
   pace_css_url:
 
-# ========== 看板娘 ==========
-# 用 Live2D（动态）：需要装 hexo-helper-live2d 插件，先用静态图代替
-# 静态看板娘：直接放在 source/img/ 里，用自定义 JS 注入
-# 先在这里关闭，后面用自定义方式实现
-# 如果想用 Butterfly 内置的 fukidashi（对话气泡），可在这里开
-
 # ========== 右下角工具栏 ==========
+# 修改：把 hideAside 从 hide 移到 show
+# 原因：移动端用户需要通过 hideAside 按钮打开侧边栏来查看目录
+# hideAside 按钮在移动端是打开侧边栏（含TOC）的唯一入口
 rightside_item_order:
   enable: true
-  hide: readmode,translate,hideAside
-  show: darkmode
-readmode: true                   # 阅读模式
+  hide: readmode,translate        # ← 去掉了 hideAside
+  show: darkmode,hideAside        # ← 加到 show 里
+
+readmode: true
 translate:
-  enable: true                  # 翻译（先关）
+  enable: false                   # 翻译功能用不到就关掉，少加载一个功能
 
 # ========== 暗色模式 ==========
-display_mode: auto               # light / dark / auto
+display_mode: auto
 darkmode:
   enable: true
-  button: true                   # 显示切换按钮
-  autoChangeMode: false          # 不自动切换
-  start: 18                      # 18 点入夜
-  end: 6                         # 6 点天亮
+  button: true
+  autoChangeMode: false
+  start: 18
+  end: 6
 
 # ========== 站点统计 ==========
 busuanzi:
-  site_uv: true                  # 站点访客
-  site_pv: true                  # 站点浏览
-  page_pv: true                  # 文章浏览
+  site_uv: true
+  site_pv: true
+  page_pv: true
 
 # ========== 滚动百分比 ==========
 rightside_scroll_percent: true
+
+# ========== 目录 TOC ==========
+# 修改：expand 改为 true，移动端打开侧边栏后目录直接展开不用再点
+# style_simple 改为 true，移动端简洁模式更好用
+toc:
+  post: true
+  page: false
+  number: true
+  expand: true                    # ← 改为 true，默认展开
+  style_simple: true              # ← 改为 true，简洁模式，移动端更友好
+  scroll_percent: true
 
 # ========== 平滑滚动 ==========
 swiper_css:
@@ -195,7 +205,7 @@ swiper_js:
 sponsor:
   enable: false
 
-# ========== PJAX 无刷新切换（重要！配合动画过渡）==========
+# ========== PJAX 无刷新切换 ==========
 pjax:
   enable: true
   exclude:
@@ -206,13 +216,13 @@ reading_progress:
   start_color: "#4a90e2"
   end_color: "#7eb8ff"
   height_progress: "2px"
-  position: top                  # top / bottom
+  position: top
 
 # ========== 自定义 CSS / JS 注入 ==========
 inject:
   head:
     - <link rel="stylesheet" href="/css/custom.css">
-    - <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   bottom:
     - <script src="/js/custom.js"></script>
     - <script src="/js/auto-dark-post.js"></script>
+    - <script defer src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
