@@ -2170,3 +2170,40 @@ max-width: 100%;
      text-align: left !important;
    }
  }  
+
+ /* ========================================================================
+ * 30. 图片懒加载淡入效果（配合原生 loading="lazy"）
+ * ======================================================================== */
+
+/* 未加载完成的图片：透明 + 模糊，隐约有个占位色 */
+#article-container img.lk-img-loading {
+  opacity: 0;
+  filter: blur(8px);
+  background: var(--lk-accent-soft);
+  min-height: 60px;
+  transition: opacity 0.5s var(--lk-ease), filter 0.5s var(--lk-ease);
+}
+
+/* 加载完成后：淡入 + 去模糊 */
+#article-container img.lk-img-loaded {
+  opacity: 1;
+  filter: blur(0);
+  background: transparent;
+}
+
+/* 加载失败：显示破损占位 */
+#article-container img.lk-img-error {
+  opacity: 0.5;
+  filter: grayscale(1);
+  background: var(--lk-card-bg);
+}
+
+/* 尊重"减少动画"偏好 */
+@media (prefers-reduced-motion: reduce) {
+  #article-container img.lk-img-loading,
+  #article-container img.lk-img-loaded {
+    transition: none;
+    opacity: 1;
+    filter: none;
+  }
+}

@@ -389,6 +389,40 @@
     console.log('[Custom] ✓ 移动端 TOC 按钮已注入');
   }
 
+    /* ============ 8.5 图片懒加载 + 淡入 ============ */
+    function setupImageLazyLoad() {
+      const imgs = document.querySelectorAll('#article-container img:not([data-lk-lazy])');
+      if (imgs.length === 0) return;
+  
+      imgs.forEach(img => {
+        img.setAttribute('data-lk-lazy', '1');
+  
+        // 用浏览器原生懒加载（现代浏览器都支持）
+        if (!img.hasAttribute('loading')) {
+          img.loading = 'lazy';
+        }
+  
+        // 已经加载完的（缓存命中）直接标记
+        if (img.complete && img.naturalHeight !== 0) {
+          img.classList.add('lk-img-loaded');
+          return;
+        }
+  
+        // 加载中 → 加淡入前的样式
+        img.classList.add('lk-img-loading');
+  
+        img.addEventListener('load', () => {
+          img.classList.remove('lk-img-loading');
+          img.classList.add('lk-img-loaded');
+        }, { once: true });
+  
+        img.addEventListener('error', () => {
+          img.classList.remove('lk-img-loading');
+          img.classList.add('lk-img-error');
+        }, { once: true });
+      });
+    }
+
   /* ============ 9. 初始化 ============ */
   function init() {
     console.log('[Custom] custom.js loaded ✓');
@@ -398,6 +432,7 @@
     setupRevealAnimation();
     handleBannerScroll();
     setupMobileTocButton();
+    setupImageLazyLoad(); 
 
     window.removeEventListener('scroll', onScroll);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -411,6 +446,7 @@
     setupRevealAnimation();
     handleBannerScroll();
     setupMobileTocButton();
+    setupImageLazyLoad();
   }
 
   if (document.readyState === 'loading') {
