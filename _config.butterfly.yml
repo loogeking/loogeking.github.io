@@ -225,4 +225,4 @@ inject:
   bottom:
     - <script src="/js/custom.js"></script>
     - <script src="/js/auto-dark-post.js"></script>
-    - <script defer src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    - <script defer src="//busuanzi.9420.ac/busuanzi.pure.mini.js"></script>

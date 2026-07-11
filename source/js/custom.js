@@ -1,6 +1,6 @@
 /* ========================================================================
  * Loogeking's Blog - 自定义脚本
- * 功能：背景图同步 + 视频背景 + Banner 滚动过渡 + 卡片懒加载入场
+ * 功能：背景图同步 + 视频背景 + Banner 滚动过渡 + 卡片懒加载入场 + 移动端TOC
  * ======================================================================== */
 
 (function () {
@@ -10,25 +10,25 @@
   const CONFIG = {
     bodyBackground: 'https://i.postimg.cc/8CwCW0DC/background.jpg',
     mobileBackground: 'https://i.postimg.cc/y89bxDc0/zhe-feng-bi-zhi-shan-qiu-yan-shi-qing-tian.jpg',
-    homeVideo: './img/index.mp4', 
+    homeVideo: '/img/index.mp4',
     homePoster: 'https://i.postimg.cc/8CwCW0DC/background.jpg',
-    mobileHomeVideo: 'https://www.douyin.com/aweme/v1/play/?file_id=ce4b4c976ea94041b46cf3645866b5d6&is_play_url=1&line=0&ply_type=3&sign=50b6e76aa41d483cfef049c33e652944&source=PackSourceEnum_PRIVATE_PUBLISH&video_id=v0d00fg10000d8t7scfog65gim6bcemg',
+
+    // ✨ 改动 1：抖音视频链接换成本地视频
+    mobileHomeVideo: '/img/index_phone.mp4',
 
     enableVideo: true,
     mobileBreakpoint: 768,
 
-    // 懒加载入场目标选择器
-    // 注意：文章正文不参与，避免 opacity:0 导致看不见
     revealSelectors: [
       '#recent-posts .recent-post-item',
       '#aside-content .card-widget',
       '#archive .article-sort-item:not(.year)',
+      '#tag .article-sort-item:not(.year)',   // ✨ 改动 2：标签页也参与懒加载
       '.relatedPosts',
       '#pagination',
       '.tag-cloud-list',
       '.category-lists',
       '.flink-list-item'
-      // '#page #article-container'  ← 已移除，文章正文不参与懒加载
     ]
   };
 
@@ -40,14 +40,10 @@
       : CONFIG.bodyBackground;
 
     if (bg) {
-      document.documentElement.style.setProperty(
-        '--lk-body-bg',
-        `url(${bg})`
-      );
+      document.documentElement.style.setProperty('--lk-body-bg', `url(${bg})`);
     }
   }
 
-  // 窗口大小变化时切换背景图
   let resizeTimer = null;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
@@ -77,7 +73,6 @@
     const header = document.getElementById('page-header');
     if (!header) return;
 
-    // 清理旧的
     const old = header.querySelector('.lk-video-banner');
     if (old) {
       if (old._lkObserver) old._lkObserver.disconnect();
@@ -98,31 +93,26 @@
       return;
     }
 
-    // 移动端处理
     if (isMobile) {
       if (CONFIG.mobileHomeVideo) {
-        // 有移动端专用视频
-        console.log('[Custom] 移动端注入竖版视频');
+        console.log('[Custom] 移动端注入本地视频:', CONFIG.mobileHomeVideo);
         cfg.video = CONFIG.mobileHomeVideo;
         createVideoBanner(header, cfg);
       } else {
-        // 没有移动端视频，只注入海报
         console.log('[Custom] 移动端注入静态海报');
         createPosterBanner(header, cfg);
       }
       return;
     }
 
-    // 桌面端正常注入视频
     if (!cfg.video) {
       console.log('[Custom] 无视频源');
       return;
     }
-    console.log('[Custom] 注入视频:', cfg.video);
+    console.log('[Custom] 桌面端注入视频:', cfg.video);
     createVideoBanner(header, cfg);
   }
 
-  /* 移动端只注入海报图 */
   function createPosterBanner(header, cfg) {
     const banner = document.createElement('div');
     banner.className = 'lk-video-banner';
@@ -155,6 +145,11 @@
     video.preload = 'auto';
     video.setAttribute('muted', '');
     video.setAttribute('playsinline', '');
+
+    // ✨ 改动 3：给 video 原生加 poster 属性，视频加载前先显示，减少白屏
+    if (cfg.poster) {
+      video.poster = cfg.poster;
+    }
 
     video.addEventListener('loadeddata', () => {
       console.log('[Custom] ✓ 视频加载成功');
@@ -217,7 +212,7 @@
     });
   }
 
-  /* ============ 6. 卡片滚动懒加载入场（已修复移动端问题）============ */
+  /* ============ 6. 卡片滚动懒加载入场 ============ */
   let revealObserver = null;
 
   function setupRevealAnimation() {
@@ -229,7 +224,6 @@
     const isPostPage = !!document.getElementById('post');
     const isMobile = window.innerWidth < CONFIG.mobileBreakpoint;
 
-    // 移动端文章页：直接显示所有内容，不做任何动画
     if (isMobile && isPostPage) {
       document.querySelectorAll('.lk-reveal').forEach(el => {
         el.classList.add('lk-visible');
@@ -251,10 +245,10 @@
             const el = entry.target;
 
             if (isMobile) {
-              // 移动端：立即显示，不加延迟
               el.classList.add('lk-visible');
+              // ✨ 改动 4：动画完成后清理 will-change，释放 GPU
+              setTimeout(() => { el.style.willChange = 'auto'; }, 500);
             } else {
-              // 桌面端：保留错峰效果
               const allRevealing = document.querySelectorAll('.lk-reveal:not(.lk-visible)');
               let idx = 0;
               allRevealing.forEach((item, i) => {
@@ -263,6 +257,7 @@
               const delay = Math.min(idx * 60, 300);
               setTimeout(() => {
                 el.classList.add('lk-visible');
+                setTimeout(() => { el.style.willChange = 'auto'; }, 900);
               }, delay);
             }
             revealObserver.unobserve(el);
@@ -282,7 +277,6 @@
 
       el.classList.add('lk-reveal');
 
-      // 已经在视口内的元素：立即显示
       const rect = el.getBoundingClientRect();
       if (rect.top < window.innerHeight && rect.bottom > 0) {
         el.classList.add('lk-visible');
@@ -293,7 +287,7 @@
     });
   }
 
-  /* ============ 9. 文章封面视频支持 ============ */
+  /* ============ 7. 文章封面视频支持 ============ */
   function enableCoverVideos() {
     document.querySelectorAll('[data-cover-video]').forEach(el => {
       if (el.dataset.lkProcessed) return;
@@ -319,6 +313,7 @@
       video.playsInline = true;
       video.setAttribute('muted', '');
       video.setAttribute('playsinline', '');
+      if (p) video.poster = p;
 
       wrap.appendChild(poster);
       wrap.appendChild(video);
@@ -327,7 +322,74 @@
     });
   }
 
-  /* ============ 10. 初始化 ============ */
+  /* ============ 8. 移动端浮动目录按钮 ✨ 改动 5：从外部搬进 IIFE，修复 CONFIG 未定义 ============ */
+  function setupMobileTocButton() {
+    const isMobile = window.innerWidth < CONFIG.mobileBreakpoint;
+    const isPostPage = !!document.getElementById('post');
+
+    // 清理旧按钮
+    const oldBtn = document.getElementById('lk-mobile-toc-btn');
+    if (oldBtn) oldBtn.remove();
+    const oldPanel = document.getElementById('lk-mobile-toc-panel');
+    if (oldPanel) oldPanel.remove();
+    const oldMask = document.getElementById('lk-mobile-toc-mask');
+    if (oldMask) oldMask.remove();
+
+    if (!isMobile || !isPostPage) return;
+
+    const tocContent = document.querySelector('#card-toc .toc-content, .toc-content');
+    if (!tocContent || !tocContent.innerHTML.trim()) {
+      console.log('[Custom] 文章无目录');
+      return;
+    }
+
+    const btn = document.createElement('button');
+    btn.id = 'lk-mobile-toc-btn';
+    btn.innerHTML = '<i class="fas fa-list-ul"></i>';
+    btn.setAttribute('aria-label', '目录');
+    document.body.appendChild(btn);
+
+    const mask = document.createElement('div');
+    mask.id = 'lk-mobile-toc-mask';
+    document.body.appendChild(mask);
+
+    const panel = document.createElement('div');
+    panel.id = 'lk-mobile-toc-panel';
+    panel.innerHTML = `
+      <div class="lk-toc-header">
+        <span>目录</span>
+        <button class="lk-toc-close" aria-label="关闭">&times;</button>
+      </div>
+      <div class="lk-toc-body"></div>
+    `;
+    document.body.appendChild(panel);
+
+    const tocBody = panel.querySelector('.lk-toc-body');
+    tocBody.innerHTML = tocContent.innerHTML;
+
+    btn.addEventListener('click', () => {
+      panel.classList.add('is-open');
+      mask.classList.add('is-open');
+    });
+
+    const close = () => {
+      panel.classList.remove('is-open');
+      mask.classList.remove('is-open');
+    };
+    mask.addEventListener('click', close);
+    panel.querySelector('.lk-toc-close').addEventListener('click', close);
+
+    tocBody.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (link) {
+        setTimeout(close, 200);
+      }
+    });
+
+    console.log('[Custom] ✓ 移动端 TOC 按钮已注入');
+  }
+
+  /* ============ 9. 初始化 ============ */
   function init() {
     console.log('[Custom] custom.js loaded ✓');
     setBodyBackground();
@@ -348,7 +410,7 @@
     enableCoverVideos();
     setupRevealAnimation();
     handleBannerScroll();
-    setupMobileTocButton()
+    setupMobileTocButton();
   }
 
   if (document.readyState === 'loading') {
@@ -359,77 +421,3 @@
 
   document.addEventListener('pjax:complete', reinit);
 })();
-
-/* ============ 11. 移动端浮动目录按钮 ============ */
-function setupMobileTocButton() {
-  // 只在移动端 + 文章页显示
-  const isMobile = window.innerWidth < CONFIG.mobileBreakpoint;
-  const isPostPage = !!document.getElementById('post');
-  
-  // 清理旧按钮
-  const oldBtn = document.getElementById('lk-mobile-toc-btn');
-  if (oldBtn) oldBtn.remove();
-  const oldPanel = document.getElementById('lk-mobile-toc-panel');
-  if (oldPanel) oldPanel.remove();
-  const oldMask = document.getElementById('lk-mobile-toc-mask');
-  if (oldMask) oldMask.remove();
-
-  if (!isMobile || !isPostPage) return;
-
-  // 检查页面是否有目录内容
-  const tocContent = document.querySelector('#card-toc .toc-content, .toc-content');
-  if (!tocContent || !tocContent.innerHTML.trim()) {
-    console.log('[Custom] 文章无目录');
-    return;
-  }
-
-  // 创建悬浮按钮
-  const btn = document.createElement('button');
-  btn.id = 'lk-mobile-toc-btn';
-  btn.innerHTML = '<i class="fas fa-list-ul"></i>';
-  btn.setAttribute('aria-label', '目录');
-  document.body.appendChild(btn);
-
-  // 创建遮罩
-  const mask = document.createElement('div');
-  mask.id = 'lk-mobile-toc-mask';
-  document.body.appendChild(mask);
-
-  // 创建目录面板
-  const panel = document.createElement('div');
-  panel.id = 'lk-mobile-toc-panel';
-  panel.innerHTML = `
-    <div class="lk-toc-header">
-      <span>目录</span>
-      <button class="lk-toc-close" aria-label="关闭">&times;</button>
-    </div>
-    <div class="lk-toc-body"></div>
-  `;
-  document.body.appendChild(panel);
-
-  // 把目录内容克隆进去
-  const tocBody = panel.querySelector('.lk-toc-body');
-  tocBody.innerHTML = tocContent.innerHTML;
-
-  // 打开
-  btn.addEventListener('click', () => {
-    panel.classList.add('is-open');
-    mask.classList.add('is-open');
-  });
-
-  // 关闭
-  const close = () => {
-    panel.classList.remove('is-open');
-    mask.classList.remove('is-open');
-  };
-  mask.addEventListener('click', close);
-  panel.querySelector('.lk-toc-close').addEventListener('click', close);
-
-  // 点目录项后自动关闭面板
-  tocBody.addEventListener('click', (e) => {
-    const link = e.target.closest('a');
-    if (link) {
-      setTimeout(close, 200);
-    }
-  });
-}
