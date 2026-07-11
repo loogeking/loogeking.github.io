@@ -10,7 +10,7 @@
   const CONFIG = {
     bodyBackground: 'https://i.postimg.cc/8CwCW0DC/background.jpg',
     mobileBackground: 'https://i.postimg.cc/y89bxDc0/zhe-feng-bi-zhi-shan-qiu-yan-shi-qing-tian.jpg',
-    homeVideo: 'https://video-web-cn.douyin.com/65b8bc18243516e7371fae140bef599c/6a3a7b3d/tos-cn-ve-15/o4Q80oODeEbCsA2fFLIAxLICC2GHS6gHweyfNI?a=6383&ch=0&cr=3&dr=0&cd=0%7C0%7C0%7C3&cv=1&br=1474&bt=1474&cs=0&ds=3&ft=LXhGbL998xXYu4hmD0P5fQhlpPiXKUwr9VJEBcTGrbPD-Ipz&mime_type=video_mp4&qs=0&rc=NXZpTGRTaFBnKWwxZnNoaGRmNWhoODlpPDY3PDhnaTYzOkBpajxwNms5cmU5OzMzNGkzM0BTbGt2aXFEOmp3X2heK2p0OiNfNWE2Ni4tXl8xYzQzYC42YSNgYnBiMmRzbHFhLS1kLS9zcw%3D%3D&btag=80000200008000&cquery=100H_100K_100o_100w_100B&dy_q=1782213925&feature_id=f5241e7604dff1d9d6c943fd20bd51a2&l=202606231925257C94EF4B4917CA630BCF&ply_type=3&policy=eyJ2bSI6MywidWlkIjoiNjQwMzg1NDg2OTU4MTYwIn0%3D', // 建议迁到 OSS
+    homeVideo: './img/index.mp4', 
     homePoster: 'https://i.postimg.cc/8CwCW0DC/background.jpg',
     mobileHomeVideo: 'https://www.douyin.com/aweme/v1/play/?file_id=ce4b4c976ea94041b46cf3645866b5d6&is_play_url=1&line=0&ply_type=3&sign=50b6e76aa41d483cfef049c33e652944&source=PackSourceEnum_PRIVATE_PUBLISH&video_id=v0d00fg10000d8t7scfog65gim6bcemg',
 
