@@ -1,4 +1,10 @@
-# Site
+# ========================================================================
+# Hexo 主配置文件
+# 说明：本文件只包含 Hexo 框架配置
+# 主题相关配置（menu / social / avatar / aside / inject 等）请在 _config.butterfly.yml
+# ========================================================================
+
+# ============ Site ============
 title: Loogeking's Blog
 subtitle: '代码改变世界'
 description: '个人技术博客'
@@ -7,11 +13,25 @@ author: Loogeking
 language: zh-CN
 timezone: Asia/Shanghai
 
-# URL
-url: https://loogeking.github.io
+# ============ URL ============
+url: https://loogeking.bbroot.com
 permalink: posts/:title/
+permalink_defaults:
+pretty_urls:
+  trailing_index: true
+  trailing_html: true
 
-# Writing
+# ============ Directory ============
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: :lang
+skip_render:
+
+# ============ Writing ============
 new_post_name: :title.md
 default_layout: post
 titlecase: false
@@ -19,35 +39,66 @@ external_link:
   enable: true
   field: site
   exclude: ''
+filename_case: 0
+render_drafts: false
+post_asset_folder: false
+relative_link: false
+future: true
+syntax_highlighter: highlight.js
 
-# Home page setting
-index_generator:
-  path: ''
-  per_page: 8
-  order_by: -date
-
-# Pagination
-per_page: 8
-
-# Extensions
-theme: butterfly
-
-# ========== 代码高亮（关闭行号）==========
+# ============ 代码高亮（highlight.js）============
+# 注意：highlight_theme / highlight_copy 等属于主题配置，写在 _config.butterfly.yml
 highlight:
-  enable: true
   line_number: false
   auto_detect: false
   tab_replace: ''
   wrap: true
   hljs: false
+  exclude_languages:
+    - example
 
+# 代码高亮备选方案（未启用）
 prismjs:
-  enable: false
   preprocess: true
   line_number: false
   tab_replace: ''
 
-# Math
+# ============ Home page ============
+index_generator:
+  path: ''
+  per_page: 8
+  order_by: -date
+
+# ============ Category & Tag ============
+default_category: uncategorized
+category_map:
+tag_map:
+
+# ============ Metadata ============
+meta_generator: true
+
+# ============ Date / Time format ============
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+updated_option: 'mtime'
+
+# ============ Pagination ============
+per_page: 8
+pagination_dir: page
+
+# ============ 归档 / 分类 / 标签 生成器 ============
+archive_generator:
+  per_page: 0
+  yearly: true
+  monthly: true
+
+category_generator:
+  per_page: 0
+
+tag_generator:
+  per_page: 0
+
+# ============ 数学公式 ============
 math:
   use: mathjax
   per_page: true
@@ -57,20 +108,55 @@ mathjax:
   enable: true
   per_page: true
 
+# ============ Markdown 渲染 ============
 markdown:
   plugins:
     - markdown-it-mathjax3
 
-# 归档页面设置 (Archive)
-archive_generator:
-  per_page: 0
-  yearly: true
-  monthly: true
+# ============ Include / Exclude ============
+include:
+exclude:
+ignore:
 
-# 分类页面设置 (Category)
-category_generator:
-  per_page: 0
+# ============ Theme ============
+theme: butterfly
 
-# 标签页面设置 (Tag)
-tag_generator:
-  per_page: 0
+# ============ Deployment ============
+# 说明：本站使用 GitHub Actions 自动部署，此处无需配置
+deploy:
+
+# ============ SEO：站点地图 ============
+sitemap:
+  path:
+    - sitemap.xml
+    - sitemap.txt
+  rel: false
+  tags: true
+  categories: true
+
+# ============ SEO：RSS 订阅 ============
+feed:
+  enable: true
+  type: atom
+  path: atom.xml
+  limit: 20
+  hub:
+  content: true
+  content_limit: 140
+  content_limit_delim: ' '
+  order_by: -date
+
+# ============ SEO：robots.txt ============
+robotstxt:
+  useragent: "*"
+  allow:
+    - /
+  disallow:
+    - /js/
+    - /css/
+    - /fonts/
+    - /vendors/
+    - /fancybox/
+  sitemap:
+    - /sitemap.xml
+    - /atom.xml

@@ -13,7 +13,7 @@
     homeVideo: '/img/index.mp4',
     homePoster: 'https://i.postimg.cc/8CwCW0DC/background.jpg',
 
-    // ✨ 改动 1：抖音视频链接换成本地视频
+    
     mobileHomeVideo: '/img/index_phone.mp4',
 
     enableVideo: true,

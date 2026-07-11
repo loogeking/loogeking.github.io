@@ -1565,7 +1565,7 @@ color: #0a0e1a !important;
   color: var(--lk-text) !important;
   font-size: 0.9rem !important;
   line-height: 1.7 !important;
-  font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace !important;
+  font-family: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace !important;
 }
 [data-theme="dark"] #article-container figure.highlight .code pre {
   color: #e8ecf4 !important;
@@ -1909,3 +1909,264 @@ max-width: 100%;
     background: rgba(20, 28, 48, 0.92) !important;
   }
 }
+
+/* ========================================================================
+ * 31. 首页文章卡分类角标（右上角小胶囊）
+ * ======================================================================== */
+ #recent-posts .recent-post-item {
+  position: relative; /* 保险起见，确保定位上下文 */
+}
+
+/* 角标本体：从 .article-meta-wrap 里第一个 category 链接绝对定位过去 */
+#recent-posts .recent-post-item .article-meta-wrap > .article-meta__categories,
+#recent-posts .recent-post-item .post-meta > .post-meta-categories {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  margin: 0 !important;
+  padding: 4px 12px !important;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(10px) saturate(160%);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  color: var(--lk-text) !important;
+  z-index: 5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s var(--lk-ease);
+  max-width: 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 角标内所有子元素统一颜色 */
+#recent-posts .recent-post-item .article-meta-wrap > .article-meta__categories a,
+#recent-posts .recent-post-item .article-meta-wrap > .article-meta__categories span,
+#recent-posts .recent-post-item .article-meta-wrap > .article-meta__categories i,
+#recent-posts .recent-post-item .post-meta > .post-meta-categories a,
+#recent-posts .recent-post-item .post-meta > .post-meta-categories span,
+#recent-posts .recent-post-item .post-meta > .post-meta-categories i {
+  color: var(--lk-text) !important;
+  font-size: 0.72rem !important;
+  font-weight: 600 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+/* 卡片悬停时，角标变成主题蓝 */
+#recent-posts .recent-post-item:hover .article-meta-wrap > .article-meta__categories,
+#recent-posts .recent-post-item:hover .post-meta > .post-meta-categories {
+  background: var(--lk-accent) !important;
+  border-color: var(--lk-accent) !important;
+  color: #fff !important;
+  box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+}
+
+#recent-posts .recent-post-item:hover .article-meta-wrap > .article-meta__categories a,
+#recent-posts .recent-post-item:hover .article-meta-wrap > .article-meta__categories span,
+#recent-posts .recent-post-item:hover .article-meta-wrap > .article-meta__categories i,
+#recent-posts .recent-post-item:hover .post-meta > .post-meta-categories a,
+#recent-posts .recent-post-item:hover .post-meta > .post-meta-categories span,
+#recent-posts .recent-post-item:hover .post-meta > .post-meta-categories i {
+  color: #fff !important;
+}
+
+/* 暗色模式 */
+[data-theme="dark"] #recent-posts .recent-post-item .article-meta-wrap > .article-meta__categories,
+[data-theme="dark"] #recent-posts .recent-post-item .post-meta > .post-meta-categories {
+  background: rgba(20, 28, 48, 0.65);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--lk-text) !important;
+}
+
+/* 移动端调整位置 */
+@media (max-width: 768px) {
+  #recent-posts .recent-post-item .article-meta-wrap > .article-meta__categories,
+  #recent-posts .recent-post-item .post-meta > .post-meta-categories {
+    top: 10px;
+    right: 10px;
+    padding: 3px 10px !important;
+    font-size: 0.68rem !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.9);
+  }
+  [data-theme="dark"] #recent-posts .recent-post-item .post-meta > .post-meta-categories,
+  [data-theme="dark"] #recent-posts .recent-post-item .article-meta-wrap > .article-meta__categories {
+    background: rgba(20, 28, 48, 0.9);
+  }
+}
+
+/* ========================================================================
+ * 32. 上一篇 / 下一篇 导航美化
+ * ======================================================================== */
+ #pagination.post-pagination,
+ .pagination.pag-next-prev,
+ #post .pagination {
+   display: flex !important;
+   gap: 1rem !important;
+   margin: 2.5rem 0 !important;
+   padding: 0 !important;
+   background: transparent !important;
+   border: none !important;
+   box-shadow: none !important;
+   backdrop-filter: none !important;
+   -webkit-backdrop-filter: none !important;
+ }
+ 
+ /* 左右两个卡片 */
+ #pagination.post-pagination .prev-post,
+ #pagination.post-pagination .next-post,
+ .pagination.pag-next-prev .prev_info,
+ .pagination.pag-next-prev .next_info,
+ #post .pagination .prev-post,
+ #post .pagination .next-post {
+   flex: 1 !important;
+   position: relative !important;
+   display: flex !important;
+   flex-direction: column !important;
+   justify-content: center !important;
+   min-height: 90px !important;
+   padding: 1rem 1.5rem !important;
+   border-radius: 16px !important;
+   background: var(--lk-card-bg) !important;
+   backdrop-filter: blur(var(--lk-blur)) saturate(var(--lk-saturate)) !important;
+   -webkit-backdrop-filter: blur(var(--lk-blur)) saturate(var(--lk-saturate)) !important;
+   border: 1px solid var(--lk-card-border) !important;
+   box-shadow: var(--lk-card-shadow), inset 0 1px 0 var(--lk-glow) !important;
+   transition:
+     transform var(--lk-duration) var(--lk-ease),
+     background var(--lk-duration) var(--lk-ease),
+     box-shadow var(--lk-duration) var(--lk-ease) !important;
+   overflow: hidden !important;
+   cursor: pointer !important;
+ }
+ 
+ #pagination.post-pagination .prev-post:hover,
+ #pagination.post-pagination .next-post:hover,
+ .pagination.pag-next-prev .prev_info:hover,
+ .pagination.pag-next-prev .next_info:hover,
+ #post .pagination .prev-post:hover,
+ #post .pagination .next-post:hover {
+   transform: translateY(-4px) !important;
+   background: var(--lk-card-bg-hover) !important;
+   box-shadow: var(--lk-card-shadow-hover), inset 0 1px 0 var(--lk-glow) !important;
+ }
+ 
+ /* "上一篇"文字标签 */
+ #pagination.post-pagination .prev-post::before,
+ .pagination.pag-next-prev .prev_info::before,
+ #post .pagination .prev-post::before {
+   content: "← 上一篇";
+   display: block;
+   font-size: 0.75rem;
+   color: var(--lk-accent);
+   font-weight: 600;
+   margin-bottom: 0.4rem;
+   letter-spacing: 0.05em;
+ }
+ 
+ #pagination.post-pagination .next-post::before,
+ .pagination.pag-next-prev .next_info::before,
+ #post .pagination .next-post::before {
+   content: "下一篇 →";
+   display: block;
+   font-size: 0.75rem;
+   color: var(--lk-accent);
+   font-weight: 600;
+   margin-bottom: 0.4rem;
+   letter-spacing: 0.05em;
+   text-align: right;
+ }
+ 
+ /* 右卡内容右对齐 */
+ #pagination.post-pagination .next-post,
+ .pagination.pag-next-prev .next_info,
+ #post .pagination .next-post {
+   text-align: right !important;
+   align-items: flex-end !important;
+ }
+ 
+ /* 文章标题 */
+ #pagination.post-pagination a,
+ .pagination.pag-next-prev a,
+ #post .pagination a {
+   color: var(--lk-text) !important;
+   font-size: 0.95rem !important;
+   font-weight: 600 !important;
+   line-height: 1.4 !important;
+   text-decoration: none !important;
+   display: -webkit-box !important;
+   -webkit-line-clamp: 2 !important;
+   -webkit-box-orient: vertical !important;
+   overflow: hidden !important;
+   transition: color 0.3s var(--lk-ease) !important;
+ }
+ 
+ #pagination.post-pagination .prev-post:hover a,
+ #pagination.post-pagination .next-post:hover a,
+ .pagination.pag-next-prev .prev_info:hover a,
+ .pagination.pag-next-prev .next_info:hover a,
+ #post .pagination .prev-post:hover a,
+ #post .pagination .next-post:hover a {
+   color: var(--lk-accent) !important;
+ }
+ 
+ /* 隐藏原生的"上一篇/下一篇"文字（避免和 ::before 重复） */
+ #pagination.post-pagination .label,
+ .pagination.pag-next-prev .label {
+   display: none !important;
+ }
+ 
+ /* 隐藏封面图（你的样式偏文字型，不显示图）*/
+ #pagination.post-pagination .cover,
+ #pagination.post-pagination img,
+ .pagination.pag-next-prev img {
+   display: none !important;
+ }
+ 
+ /* 移动端 */
+ @media (max-width: 768px) {
+   #pagination.post-pagination,
+   .pagination.pag-next-prev,
+   #post .pagination {
+     flex-direction: column !important;
+     gap: 0.8rem !important;
+   }
+ 
+   #pagination.post-pagination .prev-post,
+   #pagination.post-pagination .next-post,
+   .pagination.pag-next-prev .prev_info,
+   .pagination.pag-next-prev .next_info,
+   #post .pagination .prev-post,
+   #post .pagination .next-post {
+     backdrop-filter: none !important;
+     -webkit-backdrop-filter: none !important;
+     background: rgba(255, 255, 255, 0.88) !important;
+     text-align: left !important;
+     align-items: flex-start !important;
+   }
+ 
+   [data-theme="dark"] #pagination.post-pagination .prev-post,
+   [data-theme="dark"] #pagination.post-pagination .next-post,
+   [data-theme="dark"] .pagination.pag-next-prev .prev_info,
+   [data-theme="dark"] .pagination.pag-next-prev .next_info,
+   [data-theme="dark"] #post .pagination .prev-post,
+   [data-theme="dark"] #post .pagination .next-post {
+     background: rgba(20, 28, 48, 0.92) !important;
+   }
+ 
+   #pagination.post-pagination .next-post::before,
+   .pagination.pag-next-prev .next_info::before,
+   #post .pagination .next-post::before {
+     text-align: left !important;
+   }
+ }  

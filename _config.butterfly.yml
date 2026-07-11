@@ -30,6 +30,7 @@ site_name: 文章 || 标签 || 分类
 # ========== 社交按钮 ==========
 social:
   fab fa-github: https://github.com/loogeking || Github
+  fas fa-rss: /atom.xml || RSS      # 新增
 
 # ========== 首页顶部 Banner ==========
 index_img:
@@ -179,6 +180,17 @@ darkmode:
   start: 18
   end: 6
 
+# ========== SEO / OG / 分享 ==========
+# 让文章分享到微信/Twitter/Facebook 时能显示预览图
+open_graph:
+  enable: true
+  option:
+    twitter_id:
+    twitter_site:
+    google_plus:
+    fb_admins:
+    fb_app_id:
+
 # ========== 站点统计 ==========
 busuanzi:
   site_uv: true
@@ -210,14 +222,6 @@ pjax:
   enable: true
   exclude:
 
-# ========== 阅读进度条 ==========
-reading_progress:
-  enable: true
-  start_color: "#4a90e2"
-  end_color: "#7eb8ff"
-  height_progress: "2px"
-  position: top
-
 # ========== 自定义 CSS / JS 注入 ==========
 inject:
   head:
@@ -225,4 +229,4 @@ inject:
   bottom:
     - <script src="/js/custom.js"></script>
     - <script src="/js/auto-dark-post.js"></script>
-    - <script defer src="//busuanzi.9420.ac/busuanzi.pure.mini.js"></script>
+    - - <script defer src="https://cdn.jsdelivr.net/npm/busuanzi.pure.js@1.0.3/busuanzi.pure.mini.js"></script>
