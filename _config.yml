@@ -17,6 +17,7 @@ timezone: Asia/Shanghai
 url: https://loogeking.bbroot.com
 permalink: posts/:title/
 permalink_defaults:
+  layout: post  
 pretty_urls:
   trailing_index: true
   trailing_html: true
