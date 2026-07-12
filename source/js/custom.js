@@ -23,7 +23,8 @@
       '#recent-posts .recent-post-item',
       '#aside-content .card-widget',
       '#archive .article-sort-item:not(.year)',
-      '#tag .article-sort-item:not(.year)',   // ✨ 改动 2：标签页也参与懒加载
+      '#tag .article-sort-item:not(.year)',   // 改动 2：标签页也参与懒加载
+      '#category .article-sort-item:not(.year)',   // 改动 3：分类页也参与懒加载
       '.relatedPosts',
       '#pagination',
       '.tag-cloud-list',
