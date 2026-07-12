@@ -8,6 +8,221 @@ toc: false
 permalink: /404.html
 ---
 
+<style>
+/* 隐藏 404 页面默认的 page-title 和 article-container 内边距 */
+.lk-404 {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.lk-404-card {
+  position: relative;
+  max-width: 560px;
+  width: 100%;
+  padding: 3.5rem 2.5rem;
+  text-align: center;
+  background: var(--lk-card-bg);
+  backdrop-filter: blur(var(--lk-blur)) saturate(var(--lk-saturate));
+  -webkit-backdrop-filter: blur(var(--lk-blur)) saturate(var(--lk-saturate));
+  border: 1px solid var(--lk-card-border);
+  border-radius: 24px;
+  box-shadow: var(--lk-card-shadow), inset 0 1px 0 var(--lk-glow);
+  overflow: hidden;
+}
+
+/* 旋转光晕（复用其他卡片的效果） */
+.lk-404-card::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    var(--lk-glow) 60deg,
+    transparent 120deg,
+    transparent 240deg,
+    var(--lk-glow) 300deg,
+    transparent 360deg
+  );
+  opacity: 0.25;
+  animation: lk-rotate 12s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.lk-404-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* 大字号 404 */
+.lk-404-code {
+  font-size: clamp(6rem, 18vw, 10rem);
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--lk-accent), #7eb8ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.05em;
+  text-shadow: 0 8px 24px rgba(74, 144, 226, 0.25);
+  animation: lk-404-float 3s ease-in-out infinite;
+}
+
+@keyframes lk-404-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* 标题 */
+.lk-404-title {
+  margin-top: 1rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--lk-text);
+}
+
+/* 描述 */
+.lk-404-desc {
+  margin-top: 0.8rem;
+  font-size: 0.95rem;
+  color: var(--lk-text-sub);
+  line-height: 1.7;
+}
+
+/* 按钮组 */
+.lk-404-actions {
+  margin-top: 2rem;
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* 按钮 */
+.lk-404-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--lk-card-border);
+  color: var(--lk-text) !important;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: all 0.3s var(--lk-ease);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.lk-404-btn:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.75);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.lk-404-btn-primary {
+  background: var(--lk-accent) !important;
+  color: #fff !important;
+  border-color: var(--lk-accent);
+  box-shadow: 0 6px 16px rgba(74, 144, 226, 0.35);
+}
+
+.lk-404-btn-primary:hover {
+  background: var(--lk-accent) !important;
+  color: #fff !important;
+  box-shadow: 0 10px 24px rgba(74, 144, 226, 0.5);
+}
+
+[data-theme="dark"] .lk-404-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--lk-text) !important;
+}
+
+[data-theme="dark"] .lk-404-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .lk-404-btn-primary {
+  color: #0a0e1a !important;
+}
+
+/* 提示 */
+.lk-404-tip {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed var(--lk-card-border);
+  font-size: 0.8rem;
+  color: var(--lk-text-meta);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.lk-404-tip i {
+  color: var(--lk-accent);
+}
+
+/* 隐藏 Butterfly 默认在 page 布局里加的元素 */
+#page:has(.lk-404) .page-title,
+#page:has(.lk-404) #post-meta {
+  display: none !important;
+}
+
+/* 让 404 卡片直接铺满，去掉默认 article-container 的额外样式 */
+#page:has(.lk-404) #article-container,
+#page:has(.lk-404) .page-content {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* 移动端 */
+@media (max-width: 768px) {
+  .lk-404-card {
+    padding: 2.5rem 1.5rem;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  [data-theme="dark"] .lk-404-card {
+    background: rgba(20, 28, 48, 0.92);
+  }
+
+  .lk-404-card::before {
+    display: none;
+  }
+
+  .lk-404-title {
+    font-size: 1.3rem;
+  }
+
+  .lk-404-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* 兼容性降级 */
+@supports not (backdrop-filter: blur(1px)) {
+  .lk-404-card {
+    background: rgba(255, 255, 255, 0.92);
+  }
+  [data-theme="dark"] .lk-404-card {
+    background: rgba(20, 28, 48, 0.94);
+  }
+}
+</style>
 <div class="lk-404">
   <div class="lk-404-card">
     <div class="lk-404-code">404</div>
