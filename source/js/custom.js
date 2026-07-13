@@ -8,23 +8,37 @@
 
   /* ============ 配置区 ============ */
   const CONFIG = {
-    bodyBackground: 'https://i.postimg.cc/8CwCW0DC/background.jpg',
-    mobileBackground: 'https://i.postimg.cc/y89bxDc0/zhe-feng-bi-zhi-shan-qiu-yan-shi-qing-tian.jpg',
-    homeVideo: '/img/index.mp4',
-    homePoster: 'https://i.postimg.cc/8CwCW0DC/background.jpg',
-
-    
+    /* 改：4套背景图，按明暗+设备 */
+    backgrounds: {
+      light: {
+        desktop: '/img/bg-light.png',
+        mobile:  '/img/bg-light-mobile.png'
+      },
+      dark: {
+        desktop: '/img/bg-dark.png',
+        mobile:  '/img/bg-dark-mobile.png'
+      }
+    },
+  
+    homeVideo:       '/img/index.mp4',
+    homePoster:      '/img/index-poster.png',   
     mobileHomeVideo: '/img/index_phone.mp4',
-
-    enableVideo: true,
+  
+    enableVideo:     true,
     mobileBreakpoint: 768,
-
+  
+    /* 新增：视频加载策略 */
+    bannerVideoPreload:          'none',   // 先不加载视频，等页面稳定
+    bannerLoadDelay:              300,     // 页面 idle 后 300ms 开始加载
+    disableVideoOnSaveData:       true,    // 省流量模式只显示海报
+    disableVideoOnReducedMotion:  true,    // 减少动画偏好只显示海报
+  
     revealSelectors: [
       '#recent-posts .recent-post-item',
       '#aside-content .card-widget',
       '#archive .article-sort-item:not(.year)',
-      '#tag .article-sort-item:not(.year)',   // 改动 2：标签页也参与懒加载
-      '#category .article-sort-item:not(.year)',   // 改动 3：分类页也参与懒加载
+      '#tag .article-sort-item:not(.year)',
+      '#category .article-sort-item:not(.year)',
       '.relatedPosts',
       '#pagination',
       '.tag-cloud-list',
@@ -33,23 +47,61 @@
     ]
   };
 
-  /* ============ 1. 全局背景图（区分移动端/桌面端）============ */
-  function setBodyBackground() {
-    const isMobile = window.innerWidth < CONFIG.mobileBreakpoint;
-    const bg = isMobile && CONFIG.mobileBackground
-      ? CONFIG.mobileBackground
-      : CONFIG.bodyBackground;
+  /* ============ 1. 全局背景图（明暗 × 移动/桌面 四套）============ */
+  let _lkThemeObserverInited = false;
+  let _lkResizeInited = false;
 
-    if (bg) {
-      document.documentElement.style.setProperty('--lk-body-bg', `url(${bg})`);
-    }
+  function _getCurrentTheme() {
+    const t = document.documentElement.getAttribute('data-theme') ||
+              document.body.getAttribute('data-theme') || 'light';
+    return t === 'dark' ? 'dark' : 'light';
   }
 
-  let resizeTimer = null;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(setBodyBackground, 300);
-  });
+  function _isMobileView() {
+    return window.innerWidth < CONFIG.mobileBreakpoint;
+  }
+
+  function setBodyBackground() {
+    const theme  = _getCurrentTheme();
+    const device = _isMobileView() ? 'mobile' : 'desktop';
+    const bg     = CONFIG.backgrounds?.[theme]?.[device] ||
+                  CONFIG.backgrounds?.light?.[device] || '';
+
+    document.documentElement.style.setProperty(
+      '--lk-body-bg',
+      bg ? `url("${bg}")` : 'none'
+    );
+  }
+
+  /* 监听 Butterfly 改 data-theme（手动切换 + auto-dark-post.js 都会触发）*/
+  function _watchThemeChange() {
+    if (_lkThemeObserverInited) return;
+    _lkThemeObserverInited = true;
+
+    new MutationObserver(mutations => {
+      for (const m of mutations) {
+        if (m.attributeName === 'data-theme') {
+          setBodyBackground();
+          break;
+        }
+      }
+    }).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme']
+    });
+  }
+
+  /* 窗口尺寸变化时切换移动/桌面背景 */
+  function _bindResizeForBg() {
+    if (_lkResizeInited) return;
+    _lkResizeInited = true;
+
+    let t = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(t);
+      t = setTimeout(setBodyBackground, 120);
+    }, { passive: true });
+  }
 
   /* ============ 2. 判断首页 ============ */
   function isHomePage() {
@@ -129,45 +181,80 @@
     header.insertBefore(banner, header.firstChild);
   }
 
-  function createVideoBanner(header, cfg) {
-    const banner = document.createElement('div');
-    banner.className = 'lk-video-banner';
+  /* ============ 判断是否应该只显示海报（弱网/省流/减少动画）============ */
+function _shouldPosterOnly() {
+  if (CONFIG.disableVideoOnReducedMotion &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true;
 
-    const poster = document.createElement('div');
-    poster.className = 'lk-video-poster';
-    if (cfg.poster) poster.style.backgroundImage = `url(${cfg.poster})`;
-
-    const video = document.createElement('video');
-    video.src = cfg.video;
-    video.autoplay = true;
-    video.muted = true;
-    video.loop = true;
-    video.playsInline = true;
-    video.preload = 'auto';
-    video.setAttribute('muted', '');
-    video.setAttribute('playsinline', '');
-
-    // ✨ 改动 3：给 video 原生加 poster 属性，视频加载前先显示，减少白屏
-    if (cfg.poster) {
-      video.poster = cfg.poster;
-    }
-
-    video.addEventListener('loadeddata', () => {
-      console.log('[Custom] ✓ 视频加载成功');
-      video.play().catch(err => console.warn('[Custom] 自动播放失败:', err));
-    });
-
-    video.addEventListener('error', () => {
-      console.error('[Custom] ✗ 视频加载失败:', cfg.video);
-      banner.classList.add('is-paused');
-    });
-
-    banner.appendChild(poster);
-    banner.appendChild(video);
-    header.insertBefore(banner, header.firstChild);
-
-    observeBannerVisibility(banner, video);
+  const conn = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
+  if (conn) {
+    if (CONFIG.disableVideoOnSaveData && conn.saveData) return true;
+    const t = conn.effectiveType || '';
+    if (t === 'slow-2g' || t === '2g') return true;
   }
+  return false;
+}
+
+/* ============ 4. 注入视频 Banner（先海报，idle 后再加载视频）============ */
+function createVideoBanner(header, cfg) {
+  const banner = document.createElement('div');
+  banner.className = 'lk-video-banner';
+
+  /* --- 海报层（立即显示，不等视频）--- */
+  const poster = document.createElement('div');
+  poster.className = 'lk-video-poster';
+  if (cfg.poster) poster.style.backgroundImage = `url("${cfg.poster}")`;
+  poster.style.opacity = '1';   // 先完全显示海报
+
+  /* --- video 节点（先不设 src，不触发网络请求）--- */
+  const video = document.createElement('video');
+  video.muted      = true;
+  video.loop       = true;
+  video.autoplay   = true;
+  video.playsInline = true;
+  video.preload    = CONFIG.bannerVideoPreload || 'none';
+  if (cfg.poster) video.poster = cfg.poster;   // 浏览器原生 poster
+  video.setAttribute('muted', '');
+  video.setAttribute('playsinline', '');
+  video.style.opacity = '0';   // 先藏住，加载完再淡入
+
+  /* 视频加载完成 → 淡入视频、淡出海报 */
+  video.addEventListener('loadeddata', () => {
+    console.log('[Custom] ✓ 视频加载成功');
+    video.style.transition = 'opacity 0.8s ease';
+    poster.style.transition = 'opacity 0.8s ease';
+    video.style.opacity  = '1';
+    poster.style.opacity = '0';
+    video.play().catch(err => console.warn('[Custom] 自动播放失败:', err));
+  }, { once: true });
+
+  video.addEventListener('error', () => {
+    console.error('[Custom] ✗ 视频加载失败:', cfg.video);
+    // 出错：海报保持显示
+  }, { once: true });
+
+  banner.appendChild(poster);
+  banner.appendChild(video);
+  header.insertBefore(banner, header.firstChild);
+
+  /* --- 延迟加载 src：等浏览器 idle 后再触发网络请求 --- */
+  const startLoad = () => {
+    if (banner.dataset.videoLoaded === '1') return;
+    banner.dataset.videoLoaded = '1';
+    console.log('[Custom] 开始加载视频:', cfg.video);
+    video.src = cfg.video;
+    video.load();
+  };
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(startLoad, { timeout: 1500 });
+  } else {
+    setTimeout(startLoad, CONFIG.bannerLoadDelay || 300);
+  }
+
+  /* --- 离开视口自动暂停 --- */
+  observeBannerVisibility(banner, video);
+}
 
   function observeBannerVisibility(banner, video) {
     if (!('IntersectionObserver' in window)) return;
@@ -176,7 +263,9 @@
         entries.forEach(e => {
           if (e.isIntersecting && e.intersectionRatio > 0.2) {
             banner.classList.remove('is-paused');
-            video.play().catch(() => {});
+            if (video.src && video.readyState >= 2) {
+              video.play().catch(() => {});
+            }
           } else {
             banner.classList.add('is-paused');
             video.pause();
@@ -428,6 +517,8 @@
   function init() {
     console.log('[Custom] custom.js loaded ✓');
     setBodyBackground();
+    _watchThemeChange();   
+    _bindResizeForBg(); 
     injectVideoBanner();
     enableCoverVideos();
     setupRevealAnimation();

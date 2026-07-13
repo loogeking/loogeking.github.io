@@ -23,6 +23,8 @@
   --lk-ease: cubic-bezier(0.4, 0, 0.2, 1);
   --lk-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
   --lk-duration: 0.5s;
+  --lk-body-bg: none;
+  --lk-body-bg-brightness: 1;
 }
 
 [data-theme="dark"] {
@@ -37,6 +39,13 @@
   --lk-accent: #7eb8ff;
   --lk-accent-soft: rgba(126, 184, 255, 0.18);
   --lk-glow: rgba(126, 184, 255, 0.2);
+  --lk-body-bg-brightness: 0.6;
+}
+
+/* ============ 2. 全局背景 ============ */
+body {
+  color: var(--lk-text);
+  transition: color var(--lk-duration) var(--lk-ease);
 }
 
 /* ============ 2. 全局背景 ============ */
@@ -54,10 +63,10 @@ body::before {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-}
-
-[data-theme="dark"] body::before {
-  filter: brightness(0.6);
+  /* 用 CSS 变量控制亮暗，不再用 [data-theme="dark"] 单独写 filter */
+  filter: brightness(var(--lk-body-bg-brightness, 1));
+  /* 明暗切换时平滑过渡 */
+  transition: filter 0.5s var(--lk-ease, ease);
 }
 
 /* ============ 3. 透明化主区域 ============ */
@@ -388,6 +397,18 @@ body::before {
   z-index: 1;
 }
 
+/* 海报层：默认完全显示，视频 ready 后由 JS 淡出 */
+.lk-video-banner .lk-video-poster {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 1;                         /* ✨ 改：默认显示 */
+  transition: opacity 0.8s ease;
+  z-index: 1;
+}
+
+/* 视频层：默认隐藏，加载完由 JS 淡入 */
 .lk-video-banner video {
   position: absolute;
   top: 50%;
@@ -398,24 +419,14 @@ body::before {
   height: auto;
   transform: translate(-50%, -50%);
   object-fit: cover;
-  transition: opacity 0.8s var(--lk-ease);
+  opacity: 0;                         /* ✨ 改：默认隐藏 */
+  transition: opacity 0.8s ease;
+  z-index: 2;
 }
 
+/* is-paused 状态：视频暂停时不影响海报显示（海报已经在下面了）*/
 .lk-video-banner.is-paused video {
   opacity: 0;
-}
-
-.lk-video-banner .lk-video-poster {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0;
-  transition: opacity 0.8s var(--lk-ease);
-}
-
-.lk-video-banner.is-paused .lk-video-poster {
-  opacity: 1;
 }
 
 /* ============ 10. 滚动懒加载入场 ============ */
