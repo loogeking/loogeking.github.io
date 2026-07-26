@@ -221,6 +221,16 @@ swiper_css:
 swiper_js:
 sponsor:
   enable: false
+reward:
+  enable: true
+  text: 如果觉得有帮助，可以请我喝杯咖啡 ☕
+  QR_code:
+    - img: /img/wechat-reward.jpg
+      link:
+      text: 微信
+    - img: /img/alipay-reward.jpg
+      link:
+      text: 支付宝
 
 # ========== PJAX 无刷新切换 ==========
 pjax:
