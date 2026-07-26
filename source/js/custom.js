@@ -340,10 +340,7 @@ function createVideoBanner(header, cfg) {
               setTimeout(() => { el.style.willChange = 'auto'; }, 500);
             } else {
               const allRevealing = document.querySelectorAll('.lk-reveal:not(.lk-visible)');
-              let idx = 0;
-              allRevealing.forEach((item, i) => {
-                if (item === el) idx = i;
-              });
+              const idx = Array.from(allRevealing).indexOf(el);
               const delay = Math.min(idx * 60, 300);
               setTimeout(() => {
                 el.classList.add('lk-visible');

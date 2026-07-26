@@ -182,7 +182,7 @@ darkmode:
 
 # ========== SEO / OG / 分享 ==========
 # 让文章分享到微信/Twitter/Facebook 时能显示预览图
-open_graph:
+Open_Graph_meta:
   enable: true
   option:
     twitter_id:
@@ -196,6 +196,11 @@ busuanzi:
   site_uv: true
   site_pv: true
   page_pv: true
+
+# 覆盖主题默认的 ibruce 脚本（已失效），改用本地适配脚本
+CDN:
+  option:
+    busuanzi: /js/busuanzi.js
 
 # ========== 滚动百分比 ==========
 rightside_scroll_percent: true
@@ -229,4 +234,17 @@ inject:
   bottom:
     - <script src="/js/custom.js"></script>
     - <script src="/js/auto-dark-post.js"></script>
-    - - <script defer src="https://cdn.jsdelivr.net/npm/busuanzi.pure.js@1.0.3/busuanzi.pure.mini.js"></script>
+    - <script defer src="https://busuanzi.9420.com/busuanzi.pure.mini.js"></script>
+
+# ========== 本地搜索 ==========
+search:
+  use: local_search
+  placeholder: 搜索文章
+  local_search:
+    preload: true
+    top_n_per_article: 1
+    unescape: true
+    pagination:
+      enable: true
+      hitsPerPage: 8
+    CDN:

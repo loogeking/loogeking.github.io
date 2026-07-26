@@ -48,12 +48,6 @@ body {
   transition: color var(--lk-duration) var(--lk-ease);
 }
 
-/* ============ 2. 全局背景 ============ */
-body {
-  color: var(--lk-text);
-  transition: color var(--lk-duration) var(--lk-ease);
-}
-
 body::before {
   content: "";
   position: fixed;

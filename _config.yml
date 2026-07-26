@@ -161,3 +161,10 @@ robotstxt:
   sitemap:
     - /sitemap.xml
     - /atom.xml
+    
+# ============ 本地搜索 ============
+search:
+  path: search.xml
+  field: post
+  content: true
+  format: html
