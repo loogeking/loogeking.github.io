@@ -30,7 +30,7 @@ Typora 是一款简洁而强大的 Markdown 编辑器，支持实时预览、数
 
 ### 1、领取脚本
 
-[激活脚本](https://files.cnblogs.com/files/blogs/850147/Typroa_Activation_Script.zip?t=1785066681&download=true)
+[激活脚本](https://files.cnblogs.com/files/blogs/850147/Typroa_Activation_Script.zip)
 
 <a href="https://postimg.cc/MfkgSvB9" target="_blank"><img src="https://i.postimg.cc/90z2y9QH/image-20260726200728026.png" alt="image-20260726200728026"></a>
 
