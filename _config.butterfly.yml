@@ -120,7 +120,7 @@ aside:
       link: https://github.com/loogeking
   card_announcement:
     enable: true
-    content: 欢迎来到 Loogeking 的博客，这里记录着代码与生活的点滴
+    content: 欢迎来到 Loogeking 的博客，这里记录着代码与生活的点滴<br><br><img src="/img/wechat-card.jpg" alt="微信名片" style="width:100%;max-width:240px;border-radius:12px;display:block;margin:8px auto;">
   card_recent_post:
     enable: true
     limit: 5
@@ -219,8 +219,6 @@ toc:
 # ========== 平滑滚动 ==========
 swiper_css:
 swiper_js:
-sponsor:
-  enable: false
 reward:
   enable: true
   text: 如果觉得有帮助，可以请我喝杯咖啡 ☕

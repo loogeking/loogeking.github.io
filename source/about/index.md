@@ -13,4 +13,4 @@ type: "about"
 ## 联系方式
 
 - GitHub: [loogeking](https://github.com/loogeking)
-- Email: loogeking@gmail.com
+- Email: ![](/img/email.png)

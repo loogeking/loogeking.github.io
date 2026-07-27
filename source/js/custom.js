@@ -28,10 +28,10 @@
     mobileBreakpoint: 768,
   
     /* 新增：视频加载策略 */
-    bannerVideoPreload:          'none',   // 先不加载视频，等页面稳定
-    bannerLoadDelay:              300,     // 页面 idle 后 300ms 开始加载
-    disableVideoOnSaveData:       true,    // 省流量模式只显示海报
-    disableVideoOnReducedMotion:  true,    // 减少动画偏好只显示海报
+    bannerVideoPreload:          'none',
+    bannerLoadDelay:              300,
+    disableVideoOnSaveData:       true,
+    disableVideoOnReducedMotion:  true,
   
     revealSelectors: [
       '#recent-posts .recent-post-item',
@@ -73,7 +73,7 @@
     );
   }
 
-  /* 监听 Butterfly 改 data-theme（手动切换 + auto-dark-post.js 都会触发）*/
+  /* 监听 Butterfly 改 data-theme */
   function _watchThemeChange() {
     if (_lkThemeObserverInited) return;
     _lkThemeObserverInited = true;
@@ -142,27 +142,22 @@
       };
     }
     if (!cfg) {
-      console.log('[Custom] 当前页面无视频配置');
       return;
     }
 
     if (isMobile) {
       if (CONFIG.mobileHomeVideo) {
-        console.log('[Custom] 移动端注入本地视频:', CONFIG.mobileHomeVideo);
         cfg.video = CONFIG.mobileHomeVideo;
         createVideoBanner(header, cfg);
       } else {
-        console.log('[Custom] 移动端注入静态海报');
         createPosterBanner(header, cfg);
       }
       return;
     }
 
     if (!cfg.video) {
-      console.log('[Custom] 无视频源');
       return;
     }
-    console.log('[Custom] 桌面端注入视频:', cfg.video);
     createVideoBanner(header, cfg);
   }
 
@@ -181,7 +176,6 @@
     header.insertBefore(banner, header.firstChild);
   }
 
-  /* ============ 判断是否应该只显示海报（弱网/省流/减少动画）============ */
 function _shouldPosterOnly() {
   if (CONFIG.disableVideoOnReducedMotion &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true;
@@ -195,53 +189,44 @@ function _shouldPosterOnly() {
   return false;
 }
 
-/* ============ 4. 注入视频 Banner（先海报，idle 后再加载视频）============ */
 function createVideoBanner(header, cfg) {
   const banner = document.createElement('div');
   banner.className = 'lk-video-banner';
 
-  /* --- 海报层（立即显示，不等视频）--- */
   const poster = document.createElement('div');
   poster.className = 'lk-video-poster';
   if (cfg.poster) poster.style.backgroundImage = `url("${cfg.poster}")`;
-  poster.style.opacity = '1';   // 先完全显示海报
+  poster.style.opacity = '1';
 
-  /* --- video 节点（先不设 src，不触发网络请求）--- */
   const video = document.createElement('video');
   video.muted      = true;
   video.loop       = true;
   video.autoplay   = true;
   video.playsInline = true;
   video.preload    = CONFIG.bannerVideoPreload || 'none';
-  if (cfg.poster) video.poster = cfg.poster;   // 浏览器原生 poster
+  if (cfg.poster) video.poster = cfg.poster;
   video.setAttribute('muted', '');
   video.setAttribute('playsinline', '');
-  video.style.opacity = '0';   // 先藏住，加载完再淡入
+  video.style.opacity = '0';
 
-  /* 视频加载完成 → 淡入视频、淡出海报 */
   video.addEventListener('loadeddata', () => {
-    console.log('[Custom] ✓ 视频加载成功');
     video.style.transition = 'opacity 0.8s ease';
     poster.style.transition = 'opacity 0.8s ease';
     video.style.opacity  = '1';
     poster.style.opacity = '0';
-    video.play().catch(err => console.warn('[Custom] 自动播放失败:', err));
+    video.play().catch(() => {});
   }, { once: true });
 
   video.addEventListener('error', () => {
-    console.error('[Custom] ✗ 视频加载失败:', cfg.video);
-    // 出错：海报保持显示
   }, { once: true });
 
   banner.appendChild(poster);
   banner.appendChild(video);
   header.insertBefore(banner, header.firstChild);
 
-  /* --- 延迟加载 src：等浏览器 idle 后再触发网络请求 --- */
   const startLoad = () => {
     if (banner.dataset.videoLoaded === '1') return;
     banner.dataset.videoLoaded = '1';
-    console.log('[Custom] 开始加载视频:', cfg.video);
     video.src = cfg.video;
     video.load();
   };
@@ -252,7 +237,6 @@ function createVideoBanner(header, cfg) {
     setTimeout(startLoad, CONFIG.bannerLoadDelay || 300);
   }
 
-  /* --- 离开视口自动暂停 --- */
   observeBannerVisibility(banner, video);
 }
 
@@ -278,7 +262,6 @@ function createVideoBanner(header, cfg) {
     banner._lkObserver = ob;
   }
 
-  /* ============ 5. Banner 滚动过渡效果 ============ */
   let scrollRafId = null;
   function handleBannerScroll() {
     const header = document.getElementById('page-header');
@@ -302,7 +285,6 @@ function createVideoBanner(header, cfg) {
     });
   }
 
-  /* ============ 6. 卡片滚动懒加载入场 ============ */
   let revealObserver = null;
 
   function setupRevealAnimation() {
@@ -336,7 +318,6 @@ function createVideoBanner(header, cfg) {
 
             if (isMobile) {
               el.classList.add('lk-visible');
-              // ✨ 改动 4：动画完成后清理 will-change，释放 GPU
               setTimeout(() => { el.style.willChange = 'auto'; }, 500);
             } else {
               const allRevealing = document.querySelectorAll('.lk-reveal:not(.lk-visible)');
@@ -374,7 +355,6 @@ function createVideoBanner(header, cfg) {
     });
   }
 
-  /* ============ 7. 文章封面视频支持 ============ */
   function enableCoverVideos() {
     document.querySelectorAll('[data-cover-video]').forEach(el => {
       if (el.dataset.lkProcessed) return;
@@ -409,12 +389,10 @@ function createVideoBanner(header, cfg) {
     });
   }
 
-  /* ============ 8. 移动端浮动目录按钮 ✨ 改动 5：从外部搬进 IIFE，修复 CONFIG 未定义 ============ */
   function setupMobileTocButton() {
     const isMobile = window.innerWidth < CONFIG.mobileBreakpoint;
     const isPostPage = !!document.getElementById('post');
 
-    // 清理旧按钮
     const oldBtn = document.getElementById('lk-mobile-toc-btn');
     if (oldBtn) oldBtn.remove();
     const oldPanel = document.getElementById('lk-mobile-toc-panel');
@@ -426,7 +404,6 @@ function createVideoBanner(header, cfg) {
 
     const tocContent = document.querySelector('#card-toc .toc-content, .toc-content');
     if (!tocContent || !tocContent.innerHTML.trim()) {
-      console.log('[Custom] 文章无目录');
       return;
     }
 
@@ -472,11 +449,8 @@ function createVideoBanner(header, cfg) {
         setTimeout(close, 200);
       }
     });
-
-    console.log('[Custom] ✓ 移动端 TOC 按钮已注入');
   }
 
-    /* ============ 8.5 图片懒加载 + 淡入 ============ */
     function setupImageLazyLoad() {
       const imgs = document.querySelectorAll('#article-container img:not([data-lk-lazy])');
       if (imgs.length === 0) return;
@@ -484,18 +458,15 @@ function createVideoBanner(header, cfg) {
       imgs.forEach(img => {
         img.setAttribute('data-lk-lazy', '1');
   
-        // 用浏览器原生懒加载（现代浏览器都支持）
         if (!img.hasAttribute('loading')) {
           img.loading = 'lazy';
         }
   
-        // 已经加载完的（缓存命中）直接标记
         if (img.complete && img.naturalHeight !== 0) {
           img.classList.add('lk-img-loaded');
           return;
         }
   
-        // 加载中 → 加淡入前的样式
         img.classList.add('lk-img-loading');
   
         img.addEventListener('load', () => {
@@ -510,9 +481,7 @@ function createVideoBanner(header, cfg) {
       });
     }
 
-  /* ============ 9. 初始化 ============ */
   function init() {
-    console.log('[Custom] custom.js loaded ✓');
     setBodyBackground();
     _watchThemeChange();   
     _bindResizeForBg(); 
@@ -528,7 +497,6 @@ function createVideoBanner(header, cfg) {
   }
 
   function reinit() {
-    console.log('[Custom] PJAX reloaded');
     setBodyBackground();
     injectVideoBanner();
     enableCoverVideos();
