@@ -12,40 +12,30 @@
   link_list:
     - name: Rhine's Blog
       link: https://rhine.bbroot.com/
-      avatar: https://i.postimg.cc/nLtXJmV5/luo.jpg
+      avatar: https://img.loogeking.top/images/links/1.jpg
       descr: 朋友的博客，记录学习与生活的点滴。
 
 - class_name: 网站链接
   class_desc: 收藏的优质站点
   link_list:
-    - name: Butterfly 主题
-      link: https://butterfly.js.org
-      avatar: https://i.postimg.cc/yNzDHR6b/link2.jpg
-      descr: 一个简洁优雅的 Hexo 主题，文档完善，社区活跃。
-
-    - name: Hexo 官网
-      link: https://hexo.io/zh-cn/
-      avatar: https://i.postimg.cc/KYy12Tcd/link1.jpg
-      descr: 快速、简洁且高效的博客框架，基于 Node.js。
-
     - name: LearnCPP 学习 C++
       link: https://www.learncpp.com/
-      avatar: https://i.postimg.cc/5yw9LPdn/zhe-feng-bi-zhi-dong-hua-jiao-se-ka-tong-pai-dui.jpg
+      avatar: https://img.loogeking.top/images/links/2.jpg
       descr: 学习 C++ 的网站，有丰富的教程和示例代码。
     
     - name: codeinword
       link: https://codeinword.com/
-      avatar: https://i.postimg.cc/FskH7pGx/zhe-feng-bi-zhi-Doro-Q-ban-shao-nu.jpg
+      avatar: https://img.loogeking.top/images/links/3.jpg
       descr: word文档中代码美化
 
     - name: 爬虫解析工具集
       link: https://spidertools.cn/#/
-      avatar: https://i.postimg.cc/Gtynh7rH/zhe-feng-bi-zhi-dong-hua-dian-ying-ping-xing-yu-zhou.jpg
+      avatar: https://img.loogeking.top/images/links/4.jpg
       descr: 爬虫解析工具集，有丰富的解析工具。
 
     - name: CTFHub
       link: https://ctfhub.com/
-      avatar: https://i.postimg.cc/nh0FWWh3/zhe-feng-bi-zhi-mo-xia-ke-xing-cha-hua.jpg
+      avatar: https://img.loogeking.top/images/links/5.jpg
       descr: CTFHub，一个CTF竞赛平台，有丰富的CTF竞赛题目。
 
 

@@ -1,12 +1,13 @@
 ---
 title: vscode配置C++刷题环境
 date: 2026-06-20 21:34:49
-cover: https://i.postimg.cc/KYsRwHW9/vscode.jpg
+cover: https://img.loogeking.top/images/articles_cover/10.jpg
 tags:
   - vscode
   - C++
 categories:
   - 算法
+description: 用于搭建算法刷题环境
 ---
 # 从零搭建 VSCode C++ 算法刷题环境（含 LeetCode 插件 + Git 工作流）
 

@@ -82,6 +82,7 @@ post_meta:
     categories: true
     tags: true
     label: true
+    description: true
 
 # ========== 字数统计 ==========
 wordcount:
@@ -197,11 +198,6 @@ busuanzi:
   site_pv: true
   page_pv: true
 
-# 覆盖主题默认的 ibruce 脚本（已失效），改用本地适配脚本
-CDN:
-  option:
-    busuanzi: /js/busuanzi.js
-
 # ========== 滚动百分比 ==========
 rightside_scroll_percent: true
 
@@ -242,8 +238,6 @@ inject:
   bottom:
     - <script src="/js/custom.js"></script>
     - <script src="/js/auto-dark-post.js"></script>
-    - <script defer src="https://busuanzi.9420.com/busuanzi.pure.mini.js"></script>
-
 # ========== 本地搜索 ==========
 search:
   use: local_search
@@ -256,3 +250,7 @@ search:
       enable: true
       hitsPerPage: 8
     CDN:
+# ========== 首页文章摘要 ==========
+index_post_content:
+  method: 2
+  length: 300

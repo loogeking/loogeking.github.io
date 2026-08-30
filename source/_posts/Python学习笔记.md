@@ -3,7 +3,8 @@ title: Python学习笔记
 date: 2026-06-20 18:53:38
 tags:
   - Python
-cover: https://i.postimg.cc/VNNJ787Q/Python.jpg
+cover: https://img.loogeking.top/images/articles_cover/9.jpg
+description: 用于学习Python基础
 ---
 # Python 学习笔记
 
