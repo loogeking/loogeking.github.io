@@ -11,28 +11,28 @@
     /* 改：4套背景图，按明暗+设备 */
     backgrounds: {
       light: {
-        desktop: '/img/bg-light.png',
-        mobile:  '/img/bg-light-mobile.png'
+        desktop: 'https://img.loogeking.top/images/index/bg-light.png',
+        mobile: 'https://img.loogeking.top/images/index/bg-light-mobile.png'
       },
       dark: {
-        desktop: '/img/bg-dark.png',
-        mobile:  '/img/bg-dark-mobile.png'
+        desktop: 'https://img.loogeking.top/images/index/bg-dark.png',
+        mobile: 'https://img.loogeking.top/images/index/bg-dark-mobile.png'
       }
     },
-  
-    homeVideo:       '/img/index.mp4',
-    homePoster:      '/img/index-poster.png',   
+
+    homeVideo: '/img/index.mp4',
+    homePoster: 'https://img.loogeking.top/images/index/index-poster.png',
     mobileHomeVideo: '/img/index_phone.mp4',
-  
-    enableVideo:     true,
+
+    enableVideo: true,
     mobileBreakpoint: 768,
-  
+
     /* 新增：视频加载策略 */
-    bannerVideoPreload:          'none',
-    bannerLoadDelay:              300,
-    disableVideoOnSaveData:       true,
-    disableVideoOnReducedMotion:  true,
-  
+    bannerVideoPreload: 'none',
+    bannerLoadDelay: 300,
+    disableVideoOnSaveData: true,
+    disableVideoOnReducedMotion: true,
+
     revealSelectors: [
       '#recent-posts .recent-post-item',
       '#aside-content .card-widget',
@@ -53,7 +53,7 @@
 
   function _getCurrentTheme() {
     const t = document.documentElement.getAttribute('data-theme') ||
-              document.body.getAttribute('data-theme') || 'light';
+      document.body.getAttribute('data-theme') || 'light';
     return t === 'dark' ? 'dark' : 'light';
   }
 
@@ -62,10 +62,10 @@
   }
 
   function setBodyBackground() {
-    const theme  = _getCurrentTheme();
+    const theme = _getCurrentTheme();
     const device = _isMobileView() ? 'mobile' : 'desktop';
-    const bg     = CONFIG.backgrounds?.[theme]?.[device] ||
-                  CONFIG.backgrounds?.light?.[device] || '';
+    const bg = CONFIG.backgrounds?.[theme]?.[device] ||
+      CONFIG.backgrounds?.light?.[device] || '';
 
     document.documentElement.style.setProperty(
       '--lk-body-bg',
@@ -176,69 +176,69 @@
     header.insertBefore(banner, header.firstChild);
   }
 
-function _shouldPosterOnly() {
-  if (CONFIG.disableVideoOnReducedMotion &&
+  function _shouldPosterOnly() {
+    if (CONFIG.disableVideoOnReducedMotion &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches) return true;
 
-  const conn = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
-  if (conn) {
-    if (CONFIG.disableVideoOnSaveData && conn.saveData) return true;
-    const t = conn.effectiveType || '';
-    if (t === 'slow-2g' || t === '2g') return true;
-  }
-  return false;
-}
-
-function createVideoBanner(header, cfg) {
-  const banner = document.createElement('div');
-  banner.className = 'lk-video-banner';
-
-  const poster = document.createElement('div');
-  poster.className = 'lk-video-poster';
-  if (cfg.poster) poster.style.backgroundImage = `url("${cfg.poster}")`;
-  poster.style.opacity = '1';
-
-  const video = document.createElement('video');
-  video.muted      = true;
-  video.loop       = true;
-  video.autoplay   = true;
-  video.playsInline = true;
-  video.preload    = CONFIG.bannerVideoPreload || 'none';
-  if (cfg.poster) video.poster = cfg.poster;
-  video.setAttribute('muted', '');
-  video.setAttribute('playsinline', '');
-  video.style.opacity = '0';
-
-  video.addEventListener('loadeddata', () => {
-    video.style.transition = 'opacity 0.8s ease';
-    poster.style.transition = 'opacity 0.8s ease';
-    video.style.opacity  = '1';
-    poster.style.opacity = '0';
-    video.play().catch(() => {});
-  }, { once: true });
-
-  video.addEventListener('error', () => {
-  }, { once: true });
-
-  banner.appendChild(poster);
-  banner.appendChild(video);
-  header.insertBefore(banner, header.firstChild);
-
-  const startLoad = () => {
-    if (banner.dataset.videoLoaded === '1') return;
-    banner.dataset.videoLoaded = '1';
-    video.src = cfg.video;
-    video.load();
-  };
-
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(startLoad, { timeout: 1500 });
-  } else {
-    setTimeout(startLoad, CONFIG.bannerLoadDelay || 300);
+    const conn = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
+    if (conn) {
+      if (CONFIG.disableVideoOnSaveData && conn.saveData) return true;
+      const t = conn.effectiveType || '';
+      if (t === 'slow-2g' || t === '2g') return true;
+    }
+    return false;
   }
 
-  observeBannerVisibility(banner, video);
-}
+  function createVideoBanner(header, cfg) {
+    const banner = document.createElement('div');
+    banner.className = 'lk-video-banner';
+
+    const poster = document.createElement('div');
+    poster.className = 'lk-video-poster';
+    if (cfg.poster) poster.style.backgroundImage = `url("${cfg.poster}")`;
+    poster.style.opacity = '1';
+
+    const video = document.createElement('video');
+    video.muted = true;
+    video.loop = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    video.preload = CONFIG.bannerVideoPreload || 'none';
+    if (cfg.poster) video.poster = cfg.poster;
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    video.style.opacity = '0';
+
+    video.addEventListener('loadeddata', () => {
+      video.style.transition = 'opacity 0.8s ease';
+      poster.style.transition = 'opacity 0.8s ease';
+      video.style.opacity = '1';
+      poster.style.opacity = '0';
+      video.play().catch(() => { });
+    }, { once: true });
+
+    video.addEventListener('error', () => {
+    }, { once: true });
+
+    banner.appendChild(poster);
+    banner.appendChild(video);
+    header.insertBefore(banner, header.firstChild);
+
+    const startLoad = () => {
+      if (banner.dataset.videoLoaded === '1') return;
+      banner.dataset.videoLoaded = '1';
+      video.src = cfg.video;
+      video.load();
+    };
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(startLoad, { timeout: 1500 });
+    } else {
+      setTimeout(startLoad, CONFIG.bannerLoadDelay || 300);
+    }
+
+    observeBannerVisibility(banner, video);
+  }
 
   function observeBannerVisibility(banner, video) {
     if (!('IntersectionObserver' in window)) return;
@@ -248,7 +248,7 @@ function createVideoBanner(header, cfg) {
           if (e.isIntersecting && e.intersectionRatio > 0.2) {
             banner.classList.remove('is-paused');
             if (video.src && video.readyState >= 2) {
-              video.play().catch(() => {});
+              video.play().catch(() => { });
             }
           } else {
             banner.classList.add('is-paused');
@@ -451,46 +451,46 @@ function createVideoBanner(header, cfg) {
     });
   }
 
-    function setupImageLazyLoad() {
-      const imgs = document.querySelectorAll('#article-container img:not([data-lk-lazy])');
-      if (imgs.length === 0) return;
-  
-      imgs.forEach(img => {
-        img.setAttribute('data-lk-lazy', '1');
-  
-        if (!img.hasAttribute('loading')) {
-          img.loading = 'lazy';
-        }
-  
-        if (img.complete && img.naturalHeight !== 0) {
-          img.classList.add('lk-img-loaded');
-          return;
-        }
-  
-        img.classList.add('lk-img-loading');
-  
-        img.addEventListener('load', () => {
-          img.classList.remove('lk-img-loading');
-          img.classList.add('lk-img-loaded');
-        }, { once: true });
-  
-        img.addEventListener('error', () => {
-          img.classList.remove('lk-img-loading');
-          img.classList.add('lk-img-error');
-        }, { once: true });
-      });
-    }
+  function setupImageLazyLoad() {
+    const imgs = document.querySelectorAll('#article-container img:not([data-lk-lazy])');
+    if (imgs.length === 0) return;
+
+    imgs.forEach(img => {
+      img.setAttribute('data-lk-lazy', '1');
+
+      if (!img.hasAttribute('loading')) {
+        img.loading = 'lazy';
+      }
+
+      if (img.complete && img.naturalHeight !== 0) {
+        img.classList.add('lk-img-loaded');
+        return;
+      }
+
+      img.classList.add('lk-img-loading');
+
+      img.addEventListener('load', () => {
+        img.classList.remove('lk-img-loading');
+        img.classList.add('lk-img-loaded');
+      }, { once: true });
+
+      img.addEventListener('error', () => {
+        img.classList.remove('lk-img-loading');
+        img.classList.add('lk-img-error');
+      }, { once: true });
+    });
+  }
 
   function init() {
     setBodyBackground();
-    _watchThemeChange();   
-    _bindResizeForBg(); 
+    _watchThemeChange();
+    _bindResizeForBg();
     injectVideoBanner();
     enableCoverVideos();
     setupRevealAnimation();
     handleBannerScroll();
     setupMobileTocButton();
-    setupImageLazyLoad(); 
+    setupImageLazyLoad();
 
     window.removeEventListener('scroll', onScroll);
     window.addEventListener('scroll', onScroll, { passive: true });
