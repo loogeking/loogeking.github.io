@@ -5,7 +5,7 @@ tags:
   - Typora
   - 工具
 categories:
-  - 软件激活
+  - 教程
 cover: https://img.loogeking.top/images/typora激活教程/cover.jpg
 description: Typora 是一款优秀的 Markdown 编辑器，本文将介绍如何激活使用。
 ---

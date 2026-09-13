@@ -66,7 +66,7 @@ cover:
   archives_enable: false
   position: both
   default_cover:
-    - https://i.postimg.cc/0NNztsVV/default-cover.jpg
+    - https://img.loogeking.top/images/articles_cover/default.jpg
 
 # ========== 文章元信息 ==========
 post_meta:
@@ -121,7 +121,7 @@ aside:
       link: https://github.com/loogeking
   card_announcement:
     enable: true
-    content: 欢迎来到 Loogeking 的博客，这里记录着代码与生活的点滴<br>有问题联系：<br><img src="/img/wechat-card.jpg" alt="微信名片" style="width:100%;max-width:240px;border-radius:12px;display:block;margin:8px auto;">
+    content: 欢迎来到 Loogeking 的博客，这里记录着代码与生活的点滴<br>有问题联系：<br><img src="https://img.loogeking.top/images/index/wechat-card.jpg" alt="微信名片" style="width:100%;max-width:240px;border-radius:12px;display:block;margin:8px auto;">
   card_recent_post:
     enable: true
     limit: 5
@@ -219,10 +219,10 @@ reward:
   enable: true
   text: 如果觉得有帮助，可以请我喝杯咖啡 ☕
   QR_code:
-    - img: /img/wechat-reward.jpg
+    - img: https://img.loogeking.top/images/index/wechat-reward.jpg
       link:
       text: 微信
-    - img: /img/alipay-reward.jpg
+    - img: https://img.loogeking.top/images/index/alipay-reward.jpg
       link:
       text: 支付宝
 
