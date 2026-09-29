@@ -109,6 +109,12 @@
     return p === '/' || p === '/index.html' || /^\/page\/\d+\/?$/.test(p);
   }
 
+  function setPosterBackground(element, url) {
+    if (!url) return;
+    const escapedUrl = String(url).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+    element.style.backgroundImage = `url("${escapedUrl}")`;
+  }
+
   /* ============ 3. 读取页面级视频配置 ============ */
   function getPageVideoConfig() {
     const v = document.querySelector('meta[name="lk-top-video"]');
@@ -145,6 +151,11 @@
       return;
     }
 
+    if (_shouldPosterOnly()) {
+      createPosterBanner(header, cfg);
+      return;
+    }
+
     if (isMobile) {
       if (CONFIG.mobileHomeVideo) {
         cfg.video = CONFIG.mobileHomeVideo;
@@ -167,9 +178,7 @@
 
     const poster = document.createElement('div');
     poster.className = 'lk-video-poster';
-    if (cfg.poster) {
-      poster.style.backgroundImage = `url(${cfg.poster})`;
-    }
+    setPosterBackground(poster, cfg.poster);
     poster.style.opacity = '1';
 
     banner.appendChild(poster);
@@ -195,7 +204,7 @@
 
     const poster = document.createElement('div');
     poster.className = 'lk-video-poster';
-    if (cfg.poster) poster.style.backgroundImage = `url("${cfg.poster}")`;
+    setPosterBackground(poster, cfg.poster);
     poster.style.opacity = '1';
 
     const video = document.createElement('video');
@@ -214,10 +223,15 @@
       poster.style.transition = 'opacity 0.8s ease';
       video.style.opacity = '1';
       poster.style.opacity = '0';
-      video.play().catch(() => { });
+      video.play().catch(() => {
+        banner.dataset.videoPlayBlocked = '1';
+      });
     }, { once: true });
 
     video.addEventListener('error', () => {
+      banner.dataset.videoError = '1';
+      video.style.display = 'none';
+      poster.style.opacity = '1';
     }, { once: true });
 
     banner.appendChild(poster);
@@ -248,7 +262,9 @@
           if (e.isIntersecting && e.intersectionRatio > 0.2) {
             banner.classList.remove('is-paused');
             if (video.src && video.readyState >= 2) {
-              video.play().catch(() => { });
+              video.play().catch(() => {
+                banner.dataset.videoPlayBlocked = '1';
+              });
             }
           } else {
             banner.classList.add('is-paused');
@@ -320,8 +336,7 @@
               el.classList.add('lk-visible');
               setTimeout(() => { el.style.willChange = 'auto'; }, 500);
             } else {
-              const allRevealing = document.querySelectorAll('.lk-reveal:not(.lk-visible)');
-              const idx = Array.from(allRevealing).indexOf(el);
+              const idx = Number(el.dataset.lkRevealIndex || 0);
               const delay = Math.min(idx * 60, 300);
               setTimeout(() => {
                 el.classList.add('lk-visible');
@@ -340,10 +355,12 @@
     );
 
     const selector = CONFIG.revealSelectors.join(', ');
+    let revealIndex = 0;
     document.querySelectorAll(selector).forEach(el => {
       if (el.classList.contains('lk-visible')) return;
 
       el.classList.add('lk-reveal');
+      el.dataset.lkRevealIndex = String(revealIndex++);
 
       const rect = el.getBoundingClientRect();
       if (rect.top < window.innerHeight && rect.bottom > 0) {
@@ -358,11 +375,13 @@
   function enableCoverVideos() {
     document.querySelectorAll('[data-cover-video]').forEach(el => {
       if (el.dataset.lkProcessed) return;
-      el.dataset.lkProcessed = '1';
 
       const v = el.dataset.coverVideo;
-      const p = el.dataset.coverPoster || el.src;
       if (!v) return;
+      el.dataset.lkProcessed = '1';
+
+      const p = el.dataset.coverPoster || (typeof el.src === 'string' ? el.src : '');
+      if (_shouldPosterOnly()) return;
 
       const wrap = document.createElement('div');
       wrap.className = 'lk-video-banner';
@@ -370,7 +389,7 @@
 
       const poster = document.createElement('div');
       poster.className = 'lk-video-poster';
-      poster.style.backgroundImage = `url(${p})`;
+      setPosterBackground(poster, p);
 
       const video = document.createElement('video');
       video.src = v;
@@ -381,6 +400,12 @@
       video.setAttribute('muted', '');
       video.setAttribute('playsinline', '');
       if (p) video.poster = p;
+
+      video.addEventListener('error', () => {
+        wrap.dataset.videoError = '1';
+        video.style.display = 'none';
+        poster.style.opacity = '1';
+      }, { once: true });
 
       wrap.appendChild(poster);
       wrap.appendChild(video);
@@ -396,7 +421,10 @@
     const oldBtn = document.getElementById('lk-mobile-toc-btn');
     if (oldBtn) oldBtn.remove();
     const oldPanel = document.getElementById('lk-mobile-toc-panel');
-    if (oldPanel) oldPanel.remove();
+    if (oldPanel) {
+      if (typeof oldPanel._lkCleanup === 'function') oldPanel._lkCleanup();
+      oldPanel.remove();
+    }
     const oldMask = document.getElementById('lk-mobile-toc-mask');
     if (oldMask) oldMask.remove();
 
@@ -411,6 +439,8 @@
     btn.id = 'lk-mobile-toc-btn';
     btn.innerHTML = '<i class="fas fa-list-ul"></i>';
     btn.setAttribute('aria-label', '目录');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', 'lk-mobile-toc-panel');
     document.body.appendChild(btn);
 
     const mask = document.createElement('div');
@@ -419,9 +449,15 @@
 
     const panel = document.createElement('div');
     panel.id = 'lk-mobile-toc-panel';
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-modal', 'true');
+    panel.setAttribute('aria-labelledby', 'lk-mobile-toc-title');
+    panel.setAttribute('aria-hidden', 'true');
+    panel.setAttribute('tabindex', '-1');
+    panel.inert = true;
     panel.innerHTML = `
       <div class="lk-toc-header">
-        <span>目录</span>
+        <span id="lk-mobile-toc-title">目录</span>
         <button class="lk-toc-close" aria-label="关闭">&times;</button>
       </div>
       <div class="lk-toc-body"></div>
@@ -431,22 +467,43 @@
     const tocBody = panel.querySelector('.lk-toc-body');
     tocBody.innerHTML = tocContent.innerHTML;
 
-    btn.addEventListener('click', () => {
+    const closeButton = panel.querySelector('.lk-toc-close');
+    let lastFocusedElement = null;
+
+    const open = () => {
+      lastFocusedElement = document.activeElement;
       panel.classList.add('is-open');
       mask.classList.add('is-open');
-    });
+      panel.setAttribute('aria-hidden', 'false');
+      panel.inert = false;
+      btn.setAttribute('aria-expanded', 'true');
+      closeButton.focus();
+    };
 
-    const close = () => {
+    const close = (restoreFocus = true) => {
       panel.classList.remove('is-open');
       mask.classList.remove('is-open');
+      panel.setAttribute('aria-hidden', 'true');
+      panel.inert = true;
+      btn.setAttribute('aria-expanded', 'false');
+      if (restoreFocus && lastFocusedElement && lastFocusedElement.isConnected) {
+        lastFocusedElement.focus();
+      }
     };
+    btn.addEventListener('click', open);
     mask.addEventListener('click', close);
-    panel.querySelector('.lk-toc-close').addEventListener('click', close);
+    closeButton.addEventListener('click', close);
+
+    const onKeyDown = event => {
+      if (event.key === 'Escape' && panel.classList.contains('is-open')) close();
+    };
+    document.addEventListener('keydown', onKeyDown);
+    panel._lkCleanup = () => document.removeEventListener('keydown', onKeyDown);
 
     tocBody.addEventListener('click', (e) => {
       const link = e.target.closest('a');
       if (link) {
-        setTimeout(close, 200);
+        setTimeout(() => close(false), 200);
       }
     });
   }
@@ -481,6 +538,20 @@
     });
   }
 
+  function setup404BackButton() {
+    const button = document.getElementById('lk-404-back');
+    if (!button || button.dataset.lkBound) return;
+
+    button.dataset.lkBound = '1';
+    button.addEventListener('click', () => {
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.assign('/');
+      }
+    });
+  }
+
   function init() {
     setBodyBackground();
     _watchThemeChange();
@@ -491,6 +562,7 @@
     handleBannerScroll();
     setupMobileTocButton();
     setupImageLazyLoad();
+    setup404BackButton();
 
     window.removeEventListener('scroll', onScroll);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -504,6 +576,7 @@
     handleBannerScroll();
     setupMobileTocButton();
     setupImageLazyLoad();
+    setup404BackButton();
   }
 
   if (document.readyState === 'loading') {

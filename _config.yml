@@ -19,8 +19,8 @@ permalink: posts/:title/
 permalink_defaults:
   layout: post  
 pretty_urls:
-  trailing_index: true
-  trailing_html: true
+  trailing_index: false
+  trailing_html: false
 
 # ============ Directory ============
 source_dir: source
@@ -81,7 +81,7 @@ meta_generator: true
 # ============ Date / Time format ============
 date_format: YYYY-MM-DD
 time_format: HH:mm:ss
-updated_option: 'mtime'
+updated_option: 'date'
 
 # ============ Pagination ============
 per_page: 8
@@ -142,7 +142,7 @@ feed:
   path: atom.xml
   limit: 20
   hub:
-  content: true
+  content: false
   content_limit: 140
   content_limit_delim: ' '
   order_by: -date
@@ -166,5 +166,5 @@ robotstxt:
 search:
   path: search.xml
   field: post
-  content: true
+  content: false
   format: html

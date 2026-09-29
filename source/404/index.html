@@ -118,6 +118,8 @@ permalink: /404.html
   transition: all 0.3s var(--lk-ease);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  font-family: inherit;
+  cursor: pointer;
 }
 
 .lk-404-btn:hover {
@@ -238,10 +240,10 @@ permalink: /404.html
         <i class="fas fa-archive"></i>
         <span>查看归档</span>
       </a>
-      <a href="javascript:history.back()" class="lk-404-btn">
+      <button type="button" id="lk-404-back" class="lk-404-btn">
         <i class="fas fa-arrow-left"></i>
         <span>返回上页</span>
-      </a>
+      </button>
     </div>
 
     <div class="lk-404-tip">

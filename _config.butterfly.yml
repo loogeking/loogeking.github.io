@@ -173,7 +173,7 @@ translate:
   enable: false                   # 翻译功能用不到就关掉，少加载一个功能
 
 # ========== 暗色模式 ==========
-display_mode: auto
+display_mode: light
 darkmode:
   enable: true
   button: true
@@ -243,7 +243,7 @@ search:
   use: local_search
   placeholder: 搜索文章
   local_search:
-    preload: true
+    preload: false
     top_n_per_article: 1
     unescape: true
     pagination:
