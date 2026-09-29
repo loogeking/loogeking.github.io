@@ -116,8 +116,8 @@ D:\Study\BlueBridge\
 
 ## 六、VS Code 配置
 
-以下配置默认你使用 MinGW-w64 的 `g++`。  
-如果你的编译器路径不同，请把 `C:/msys64/mingw64/bin/...` 换成自己的实际路径。
+以下配置默认 MinGW-w64 的 `g++` 和 `gdb` 已加入 Windows `PATH`。
+若命令行能运行 `g++ --version` 和 `gdb --version`，任务配置可以直接使用命令名，无需绑定到某台电脑上的安装目录。
 
 ### 1. tasks.json
 
@@ -194,7 +194,7 @@ D:\Study\BlueBridge\
       "environment": [],
       "externalConsole": false,
       "MIMode": "gdb",
-      "miDebuggerPath": "C:/msys64/mingw64/bin/gdb.exe",
+      "miDebuggerPath": "gdb.exe",
       "setupCommands": [
         {
           "description": "为 gdb 启用整齐打印",
@@ -208,7 +208,7 @@ D:\Study\BlueBridge\
 }
 ```
 
-注意：`miDebuggerPath` 要改成你自己的 `gdb.exe` 路径。
+如果 VS Code 无法通过命令名启动调试器，将 `miDebuggerPath` 改成你自己的 `gdb.exe` 完整路径。
 
 ### 3. c_cpp_properties.json
 
@@ -227,7 +227,7 @@ D:\Study\BlueBridge\
         "_DEBUG",
         "LOCAL"
       ],
-      "compilerPath": "C:/msys64/mingw64/bin/g++.exe",
+      "compilerPath": "g++",
       "cStandard": "c17",
       "cppStandard": "c++17",
       "intelliSenseMode": "windows-gcc-x64"
@@ -236,7 +236,7 @@ D:\Study\BlueBridge\
 }
 ```
 
-同样需要把 `compilerPath` 改成自己的实际路径。
+如果 `g++` 已加入 `PATH`，此处可写为 `g++`；否则填入本机编译器实际路径。
 
 ### 4. settings.json
 
@@ -259,6 +259,8 @@ D:\Study\BlueBridge\
 ```
 
 如果不用 Code Runner，可以删掉 `code-runner.*` 配置。
+
+提交到 OJ 或比赛平台前，去掉本地 `-DLOCAL` 宏或删除输入输出重定向代码，并用标准输入输出验证程序。本文配置是本地刷题范例；若 VS Code 无法启动 GDB，可将 `miDebuggerPath` 改为本机 `gdb.exe` 的完整路径。
 
 ---
 
@@ -418,4 +420,3 @@ int 是否会溢出
 上一篇：[蓝桥杯 C++ 学习路线总览](/bluebridge/00-overview/)
 
 下一篇：[阶段 2：STL 与基础算法](/bluebridge/02-stl-basic/)
-

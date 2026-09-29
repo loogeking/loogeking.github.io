@@ -71,7 +71,7 @@ permalink: bluebridge/99-appendix/
 | 分块与莫队 | 数据结构 | [ds/block-array](https://oi-wiki.org/ds/block-array/) | 多数题可用树状数组、线段树替代 |
 | 线性基 | 数学 | [math/linear-algebra/basis](https://oi-wiki.org/math/linear-algebra/basis/) | 出现真题再学 |
 | Lucas 定理 | 数论 | [math/number-theory/lucas](https://oi-wiki.org/math/number-theory/lucas/) | 优先逆元和阶乘预处理 |
-| AC 自动机 | 字符串 | [string/ac-automaton](https://oi-wiki.org/string/ac-automaton/) | 国赛低频 |
+| AC 自动机 | 字符串 | [string/ac-automaton](https://oi-wiki.org/string/ac-automaton/) | 超出当前字符串基础主线，按需学习 |
 | 后缀数组 SA | 字符串 | [string/sa](https://oi-wiki.org/string/sa/) | 优先哈希和 KMP |
 | 最小表示法 | 字符串 | [string/minimal-string](https://oi-wiki.org/string/minimal-string/) | 低频 |
 | 差分约束、基环树、最小环 | 图论 | [graph](https://oi-wiki.org/graph/) | 先掌握最短路、MST、拓扑 |
@@ -147,4 +147,3 @@ permalink: bluebridge/99-appendix/
 ## 上一篇
 
 上一篇：[阶段 8：冲刺与复盘](/bluebridge/08-sprint/)
-
