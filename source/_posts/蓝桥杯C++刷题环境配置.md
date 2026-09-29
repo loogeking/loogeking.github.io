@@ -390,6 +390,29 @@ int 是否会溢出
 
 ---
 
+## 洛谷练习入口
+
+- [洛谷题单列表](https://www.luogu.com.cn/training/list)
+- [洛谷题目列表](https://www.luogu.com.cn/problem/list)
+- 关键词：输入输出、数组、函数、递归、基础语法
+
+## 推荐题目
+
+| 题号 | 题目 | 对应知识点 |
+| --- | --- | --- |
+| [P1001](https://www.luogu.com.cn/problem/P1001) | A+B Problem | 输入输出 |
+| [P1421](https://www.luogu.com.cn/problem/P1421) | 小玉买文具 | 顺序结构 |
+| [P1425](https://www.luogu.com.cn/problem/P1425) | 小鱼的游泳时间 | 顺序结构 |
+| [P1046](https://www.luogu.com.cn/problem/P1046) | [NOIP 2005 普及组] 陶陶摘苹果 | 数组 |
+| [P1047](https://www.luogu.com.cn/problem/P1047) | [NOIP 2005 普及组] 校门外的树 | 数组、模拟 |
+| [P1427](https://www.luogu.com.cn/problem/P1427) | 小鱼的数字游戏 | 数组、循环 |
+| [P1428](https://www.luogu.com.cn/problem/P1428) | 小鱼比可爱 | 数组、枚举 |
+| [P1554](https://www.luogu.com.cn/problem/P1554) | [USACO06DEC] 梦中的统计 Dream Counting B | 循环、数组 |
+| [P1909](https://www.luogu.com.cn/problem/P1909) | [NOIP 2016 普及组] 买铅笔 | 枚举、分支 |
+| [P1980](https://www.luogu.com.cn/problem/P1980) | [NOIP 2013 普及组] 计数问题 | 循环、函数 |
+| [P2141](https://www.luogu.com.cn/problem/P2141) | [NOIP 2014 普及组] 珠心算测验 | 枚举、去重 |
+| [P1035](https://www.luogu.com.cn/problem/P1035) | [NOIP 2002 普及组] 级数求和 | 循环、递归 |
+
 ## 上一篇 / 下一篇
 
 上一篇：[蓝桥杯 C++ 学习路线总览](/bluebridge/00-overview/)

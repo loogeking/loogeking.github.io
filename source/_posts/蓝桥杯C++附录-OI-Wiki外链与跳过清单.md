@@ -125,6 +125,25 @@ permalink: bluebridge/99-appendix/
 
 ---
 
+## 洛谷题目入口
+
+- [洛谷题单列表](https://www.luogu.com.cn/training/list)
+- [洛谷题目列表](https://www.luogu.com.cn/problem/list)
+- [洛谷搜索：蓝桥杯](https://www.luogu.com.cn/problem/list?keyword=蓝桥杯)
+
+| 阶段 | 文章 |
+| --- | --- |
+| 阶段 1 | [C++ 基础与 VS Code](/bluebridge/01-cpp-vscode/) |
+| 阶段 2 | [STL 与基础算法](/bluebridge/02-stl-basic/) |
+| 阶段 3 | [搜索与位运算](/bluebridge/03-search-bit/) |
+| 阶段 4 | [数学与数据结构](/bluebridge/04-math-ds/) |
+| 阶段 5 | [贪心与动态规划](/bluebridge/05-greedy-dp/) |
+| 阶段 6 | [图论与字符串](/bluebridge/06-graph-string/) |
+| 阶段 7 | [蓝桥杯真题与模拟赛](/bluebridge/07-real-problems/) |
+| 阶段 8 | [冲刺与复盘](/bluebridge/08-sprint/) |
+
+题目难度以洛谷当前显示为准；博客只放链接，不复制题面。
+
 ## 上一篇
 
 上一篇：[阶段 8：冲刺与复盘](/bluebridge/08-sprint/)

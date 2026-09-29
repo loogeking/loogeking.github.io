@@ -260,6 +260,25 @@ STL
 
 ---
 
+## 洛谷练习入口
+
+- [洛谷题单列表](https://www.luogu.com.cn/training/list)
+- [洛谷题目列表](https://www.luogu.com.cn/problem/list)
+- [洛谷搜索：蓝桥杯](https://www.luogu.com.cn/problem/list?keyword=蓝桥杯)
+
+| 阶段 | 文章 | 题目 |
+| --- | --- | --- |
+| 阶段 1 | [C++ 基础与 VS Code](/bluebridge/01-cpp-vscode/) | 12 道基础题 |
+| 阶段 2 | [STL 与基础算法](/bluebridge/02-stl-basic/) | 15 道题 |
+| 阶段 3 | [搜索与位运算](/bluebridge/03-search-bit/) | 14 道题 |
+| 阶段 4 | [数学与数据结构](/bluebridge/04-math-ds/) | 16 道题 |
+| 阶段 5 | [贪心与动态规划](/bluebridge/05-greedy-dp/) | 16 道题 |
+| 阶段 6 | [图论与字符串](/bluebridge/06-graph-string/) | 16 道题 |
+| 阶段 8 | [冲刺与复盘](/bluebridge/08-sprint/) | 16 道模板题 |
+| 附录 | [OI Wiki 外链导航](/bluebridge/99-appendix/) | 洛谷入口与跳过清单 |
+
+每篇阶段文章末尾都有对应的洛谷推荐题目；这里只放总入口，不复制题面。
+
 ## 文章列表
 
 - [阶段 1：C++ 基础与 VS Code 刷题环境](/bluebridge/01-cpp-vscode/)

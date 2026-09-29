@@ -285,6 +285,32 @@ bitset / next_permutation / 计数排序
 
 ---
 
+## 洛谷练习入口
+
+- [洛谷题单列表](https://www.luogu.com.cn/training/list)
+- [洛谷题目列表](https://www.luogu.com.cn/problem/list)
+- 关键词：排序、枚举、模拟、前缀和、二分、双指针
+
+## 推荐题目
+
+| 题号 | 题目 | 对应知识点 |
+| --- | --- | --- |
+| [P1177](https://www.luogu.com.cn/problem/P1177) | 【模板】排序 | 排序 |
+| [P1059](https://www.luogu.com.cn/problem/P1059) | [NOIP 2006 普及组] 明明的随机数 | 排序、去重 |
+| [P1093](https://www.luogu.com.cn/problem/P1093) | [NOIP 2007 普及组] 奖学金 | 排序、结构体 |
+| [P1012](https://www.luogu.com.cn/problem/P1012) | [NOIP 1998 提高组] 拼数 | 排序、贪心 |
+| [P1036](https://www.luogu.com.cn/problem/P1036) | [NOIP 2002 普及组] 选数 | 枚举、递归 |
+| [P1157](https://www.luogu.com.cn/problem/P1157) | 组合的输出 | 枚举、递归 |
+| [P1706](https://www.luogu.com.cn/problem/P1706) | 全排列问题 | 枚举、递归 |
+| [P2089](https://www.luogu.com.cn/problem/P2089) | 烤鸡 | 枚举 |
+| [P1042](https://www.luogu.com.cn/problem/P1042) | [NOIP 2003 普及组] 乒乓球 | 模拟 |
+| [P2670](https://www.luogu.com.cn/problem/P2670) | [NOIP 2015 普及组] 扫雷游戏 | 模拟 |
+| [P1115](https://www.luogu.com.cn/problem/P1115) | 最大子段和 | 前缀和、线性 |
+| [P2249](https://www.luogu.com.cn/problem/P2249) | 【深基13.例1】查找 | 二分 |
+| [P1873](https://www.luogu.com.cn/problem/P1873) | [COCI 2011/2012 #5] EKO / 砍树 | 二分答案 |
+| [P1147](https://www.luogu.com.cn/problem/P1147) | 连续正整数和 | 双指针 |
+| [P1638](https://www.luogu.com.cn/problem/P1638) | 逛画展 | 双指针、滑动窗口 |
+
 ## 上一篇 / 下一篇
 
 上一篇：[阶段 1：C++ 基础与 VS Code 刷题环境](/bluebridge/01-cpp-vscode/)
