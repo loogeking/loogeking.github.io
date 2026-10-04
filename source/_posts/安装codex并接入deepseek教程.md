@@ -1,31 +1,33 @@
 ---
-title: 安装codex并接入deepseek教程
+title: 安装codex并接入模型教程
 date: 2026-09-13 21:16:37
 tags:
   - 工具
 categories:
   - 教程
 cover: https://img.loogeking.top/images/codex接入deepseek教程/cover.jpg
-description: 本文教你如何从零安装配置codex接deepseek
+description: 本文教你如何从零安装配置codex，cc-switch
 ---
 
-# 安装codex并接入deepseek教程
-
----
-
-> 我的电脑系统是win11，本文就是以该电脑实验
+# 安装codex并接入cc-switch教程
 
 ---
 
 ## 一、准备工作
 
-### 1.1、安装codex
+### 1.1、安装codex和cc-switch
 
-网址：https://chatgpt.com/zh-Hans-CN/codex/
+codex（现在叫chatgpt），没有vpn的直接在微软商店下载
 
 ![index-1](https://img.loogeking.top/images/codex接入deepseek教程/1.png)
 
-### 1.2、注册deepseek账号并创建api-key
+cc-switch是github上的一个开源项目：https://github.com/farion1231/cc-switch/releases
+
+下载你与你系统相匹配的即可
+
+### 1.2、密钥的获取
+
+#### 1、deepseek官网
 
 网址：https://platform.deepseek.com/usage
 
@@ -41,9 +43,29 @@ api-key的名字随意，看你自己
 
 ![index-4](https://img.loogeking.top/images/codex接入deepseek教程/4.png)
 
+#### 2、注册docode创建密钥使用
+
+网址：https://ai.docode.life/register
+
+邀请码：NMGu
+
+![index-4](https://img.loogeking.top/images/codex接入deepseek教程/9.png)
+
+注册时输入邀请码可以获得250的额度，加上新用户的50，共计300额度
+
+但是该网站只给你前面几次调用的试用，如果好用还请充值支持一下
+
+这里说一下用户分组：
+
+- 普通用户（没充值）每天总共就2w额度的token池，用完就得等次日9点刷新
+- vip用户可选择用户分组（添加新的密钥时），openai系列建议先使用gpt pro分组，如果有较高的开发需求可考虑官方或者不降智
+- ![index-4](https://img.loogeking.top/images/codex接入deepseek教程/12.png)
+
 ---
 
-## 二、接入deepseek
+## 二、接入
+
+### 1、接入deepseek
 
 刚开始登录你要是没有账号就直接api-key登录，登陆后界面如下
 
@@ -61,7 +83,19 @@ irm https://cdn.deepseek.com/api-docs/codex-deepseek-setup-en.ps1 | iex
 
 ![index-7](https://img.loogeking.top/images/codex接入deepseek教程/7.png)
 
-这样就接入成功了！
+这样就接入deepseek成功了！
+
+### 2、配置cc-switch接入
+
+相较于deepseek的单一令牌，cc-switch就相当于一个令牌管理工具，感兴趣的可以搜索相关文章了解，本文只教如何快速配置。
+
+首先你新建好密钥：
+
+![index-4](https://img.loogeking.top/images/codex接入deepseek教程/10.png)
+
+选择你想要的模型即可，模型价格参考：[DoCode模型定价](https://ai.docode.life/pricing-list)
+
+![index-4](https://img.loogeking.top/images/codex接入deepseek教程/11.png)
 
 ---
 

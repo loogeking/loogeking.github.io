@@ -207,7 +207,7 @@ rightside_scroll_percent: true
 toc:
   post: true
   page: false
-  number: true
+  number: false
   expand: true                    # ← 改为 true，默认展开
   style_simple: true              # ← 改为 true，简洁模式，移动端更友好
   scroll_percent: true
