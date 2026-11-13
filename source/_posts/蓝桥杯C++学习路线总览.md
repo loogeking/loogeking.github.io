@@ -9,7 +9,7 @@ tags:
   - 学习路线
 categories:
   - 蓝桥杯
-cover: https://img.loogeking.top/images/bluebridge/1.jpg
+cover: /images/bluebridge/1.jpg
 description: "从 C++ 基础到蓝桥杯算法竞赛的全过程学习路线、范围控制与外部资源导航。"
 password: "hjy0227"
 abstract: "本文已加密，请输入密码继续阅读。"

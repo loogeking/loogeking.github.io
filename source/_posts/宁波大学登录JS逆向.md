@@ -4,7 +4,7 @@ date: 2026-08-25 07:42:23
 tags:
     - Python
     - JS逆向
-cover: https://img.loogeking.top/images/宁波大学逆向/cover.jpg
+cover: /images/宁波大学逆向/cover.jpg
 description: 本文仅可用于学习使用
 ---
 
@@ -17,23 +17,23 @@ description: 本文仅可用于学习使用
 
 ### 1.1、找到登录包
 
-![image-20260826202554258](https://img.loogeking.top/images/宁波大学逆向/1.png)
+![image-20260826202554258](/images/宁波大学逆向/1.png)
 
 ### 1.2、尝试搜索法确定位置
 
 找到可疑的加密位置，打上断点
 
-![image-20260826202949491](https://img.loogeking.top/images/宁波大学逆向/2.png)
+![image-20260826202949491](/images/宁波大学逆向/2.png)
 
 断住了，仔细分析
 
-![image-20260826203018670](https://img.loogeking.top/images/宁波大学逆向/3.png)
+![image-20260826203018670](/images/宁波大学逆向/3.png)
 
 ## 二、代码分析
 
 断住的显示`encryptAES(n,f)`，`n`是明文密码，`f`是密钥
 
-![image-20260826203230104](https://img.loogeking.top/images/宁波大学逆向/4.png)
+![image-20260826203230104](/images/宁波大学逆向/4.png)
 
 ### 2.1、分析加密函数，进行扣代码
 
@@ -64,7 +64,7 @@ function getAesString(n, f, c) {
 
 为了文章的简洁性，这里不放扣的代码，直接在`Pycharm`里调试
 
-![image-20260826204136158](https://img.loogeking.top/images/宁波大学逆向/5.png)
+![image-20260826204136158](/images/宁波大学逆向/5.png)
 
 这里显示这个函数没定义，这个就是一个简单的随机函数
 
@@ -79,9 +79,9 @@ function randomString(n) {
 
 扣出来给它放在调用函数前面
 
-![image-20260826204325201](https://img.loogeking.top/images/宁波大学逆向/6.png)
+![image-20260826204325201](/images/宁波大学逆向/6.png)
 
 这个是`random`函数里的一个常量，我们给它添加一手，随带添加一下`aes_chars_len`
 
-![image-20260826204611323](https://img.loogeking.top/images/宁波大学逆向/7.png)
+![image-20260826204611323](/images/宁波大学逆向/7.png)
 

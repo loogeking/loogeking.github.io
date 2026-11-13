@@ -5,7 +5,7 @@ tags:
   - HTML
 categories:
   - 前端开发
-cover: https://img.loogeking.top/images/articles_cover/6.jpg
+cover: /images/articles_cover/6.jpg
 description: html
 ---
 # HTML学习

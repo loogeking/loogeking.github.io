@@ -9,7 +9,7 @@ tags:
   - 资源导航
 categories:
   - 蓝桥杯
-cover: https://img.loogeking.top/images/bluebridge/10.jpg
+cover: /images/bluebridge/10.jpg
 description: "蓝桥杯 C++ 学习路线的 OI Wiki 外链导航、模块映射和暂时跳过清单。"
 password: "hjy0227"
 abstract: "本文已加密，请输入密码继续阅读。"

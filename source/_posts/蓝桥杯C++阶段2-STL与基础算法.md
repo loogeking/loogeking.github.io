@@ -9,7 +9,7 @@ tags:
   - 基础算法
 categories:
   - 蓝桥杯
-cover: https://img.loogeking.top/images/bluebridge/2.jpg
+cover: /images/bluebridge/2.jpg
 description: "蓝桥杯 C++ 第二阶段：STL 必会容器与基础算法学习清单、掌握标准、刷题策略和外部链接。"
 password: "hjy0227"
 abstract: "本文已加密，请输入密码继续阅读。"

@@ -5,7 +5,7 @@ tags:
   - JavaScript
 categories: 
   - 前端开发
-cover: https://img.loogeking.top/images/articles_cover/7.jpg
+cover: /images/articles_cover/7.jpg
 description: Js
 ---
 # JavaScript 学习笔记

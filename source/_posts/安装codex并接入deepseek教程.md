@@ -5,7 +5,7 @@ tags:
   - 工具
 categories:
   - 教程
-cover: https://img.loogeking.top/images/codex接入deepseek教程/cover.jpg
+cover: /images/codex接入deepseek教程/cover.jpg
 description: 本文教你如何从零安装配置codex，cc-switch
 ---
 
@@ -19,7 +19,7 @@ description: 本文教你如何从零安装配置codex，cc-switch
 
 codex（现在叫chatgpt），没有vpn的直接在微软商店下载
 
-![index-1](https://img.loogeking.top/images/codex接入deepseek教程/1.png)
+![index-1](/images/codex接入deepseek教程/1.png)
 
 cc-switch是github上的一个开源项目：https://github.com/farion1231/cc-switch/releases
 
@@ -33,15 +33,15 @@ cc-switch是github上的一个开源项目：https://github.com/farion1231/cc-sw
 
 注册登录过程这里不展示（记得先充钱，没钱可用不了），下面展示api-key的创建过程：
 
-![index-2](https://img.loogeking.top/images/codex接入deepseek教程/2.png)
+![index-2](/images/codex接入deepseek教程/2.png)
 
 api-key的名字随意，看你自己
 
-![index-3](https://img.loogeking.top/images/codex接入deepseek教程/3.png)
+![index-3](/images/codex接入deepseek教程/3.png)
 
 切记这个api-key不可向他人展示以及必须复制下来保存（不复制你就用不了）
 
-![index-4](https://img.loogeking.top/images/codex接入deepseek教程/4.png)
+![index-4](/images/codex接入deepseek教程/4.png)
 
 #### 2、注册docode创建密钥使用
 
@@ -49,7 +49,7 @@ api-key的名字随意，看你自己
 
 邀请码：NMGu
 
-![index-4](https://img.loogeking.top/images/codex接入deepseek教程/9.png)
+![index-4](/images/codex接入deepseek教程/9.png)
 
 注册时输入邀请码可以获得250的额度，加上新用户的50，共计300额度
 
@@ -59,7 +59,7 @@ api-key的名字随意，看你自己
 
 - 普通用户（没充值）每天总共就2w额度的token池，用完就得等次日9点刷新
 - vip用户可选择用户分组（添加新的密钥时），openai系列建议先使用gpt pro分组，如果有较高的开发需求可考虑官方或者不降智
-- ![index-4](https://img.loogeking.top/images/codex接入deepseek教程/12.png)
+- ![index-4](/images/codex接入deepseek教程/12.png)
 
 ---
 
@@ -69,7 +69,7 @@ api-key的名字随意，看你自己
 
 刚开始登录你要是没有账号就直接api-key登录，登陆后界面如下
 
-![index-5](https://img.loogeking.top/images/codex接入deepseek教程/5.png)
+![index-5](/images/codex接入deepseek教程/5.png)
 
 而后打开powershell，输入：
 
@@ -77,11 +77,11 @@ api-key的名字随意，看你自己
 irm https://cdn.deepseek.com/api-docs/codex-deepseek-setup-en.ps1 | iex
 ```
 
-![index-6](https://img.loogeking.top/images/codex接入deepseek教程/6.png)
+![index-6](/images/codex接入deepseek教程/6.png)
 
 接着，彻底关掉codex（检查任务管理器，看看是不是还有进程）后重新打开，界面更新如下：
 
-![index-7](https://img.loogeking.top/images/codex接入deepseek教程/7.png)
+![index-7](/images/codex接入deepseek教程/7.png)
 
 这样就接入deepseek成功了！
 
@@ -91,11 +91,11 @@ irm https://cdn.deepseek.com/api-docs/codex-deepseek-setup-en.ps1 | iex
 
 首先你新建好密钥：
 
-![index-4](https://img.loogeking.top/images/codex接入deepseek教程/10.png)
+![index-4](/images/codex接入deepseek教程/10.png)
 
 选择你想要的模型即可，模型价格参考：[DoCode模型定价](https://ai.docode.life/pricing-list)
 
-![index-4](https://img.loogeking.top/images/codex接入deepseek教程/11.png)
+![index-4](/images/codex接入deepseek教程/11.png)
 
 ---
 
@@ -124,7 +124,7 @@ irm https://cdn.deepseek.com/api-docs/codex-deepseek-setup-en.ps1 | iex
 
 得到：
 
-![index-8](https://img.loogeking.top/images/codex接入deepseek教程/8.png)
+![index-8](/images/codex接入deepseek教程/8.png)
 
 这样，你将拥有一个强大的AI工具！！！
 

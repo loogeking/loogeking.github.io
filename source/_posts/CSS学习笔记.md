@@ -5,7 +5,7 @@ tags:
   - CSS
 categories:
   - 前端开发
-cover: https://img.loogeking.top/images/articles_cover/5.png
+cover: /images/articles_cover/5.png
 description: css
 ---
 # CSS学习笔记

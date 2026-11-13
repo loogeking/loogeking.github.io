@@ -9,7 +9,7 @@ tags:
   - 环境配置
 categories:
   - 蓝桥杯
-cover: https://img.loogeking.top/images/bluebridge/6.jpg
+cover: /images/bluebridge/6.jpg
 description: "蓝桥杯 C++ 第一阶段：C++ 基础清单 + VS Code 刷题环境配置 + 调试对拍工作流。"
 password: "hjy0227"
 abstract: "本文已加密，请输入密码继续阅读。"

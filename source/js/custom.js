@@ -11,17 +11,17 @@
     /* 改：4套背景图，按明暗+设备 */
     backgrounds: {
       light: {
-        desktop: 'https://img.loogeking.top/images/index/bg-light.png',
-        mobile: 'https://img.loogeking.top/images/index/bg-light-mobile.png'
+        desktop: '/images/index/bg-light.png',
+        mobile: '/images/index/bg-light-mobile.png'
       },
       dark: {
-        desktop: 'https://img.loogeking.top/images/index/bg-dark.png',
-        mobile: 'https://img.loogeking.top/images/index/bg-dark-mobile.png'
+        desktop: '/images/index/bg-dark.png',
+        mobile: '/images/index/bg-dark-mobile.png'
       }
     },
 
     homeVideo: '/img/index.mp4',
-    homePoster: 'https://img.loogeking.top/images/index/index-poster.png',
+    homePoster: '/images/index/index-poster.png',
     mobileHomeVideo: '/img/index_phone.mp4',
 
     enableVideo: true,

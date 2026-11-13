@@ -12,7 +12,7 @@
   link_list:
     - name: Rhine's Blog
       link: https://rhine.bbroot.com/
-      avatar: https://img.loogeking.top/images/links/1.jpg
+      avatar: /images/links/1.jpg
       descr: 朋友的博客，记录学习与生活的点滴。
 
 - class_name: 网站链接
@@ -20,22 +20,22 @@
   link_list:
     - name: LearnCPP 学习 C++
       link: https://www.learncpp.com/
-      avatar: https://img.loogeking.top/images/links/2.jpg
+      avatar: /images/links/2.jpg
       descr: 学习 C++ 的网站，有丰富的教程和示例代码。
     
     - name: codeinword
       link: https://codeinword.com/
-      avatar: https://img.loogeking.top/images/links/3.jpg
+      avatar: /images/links/3.jpg
       descr: word文档中代码美化
 
     - name: 爬虫解析工具集
       link: https://spidertools.cn/#/
-      avatar: https://img.loogeking.top/images/links/4.jpg
+      avatar: /images/links/4.jpg
       descr: 爬虫解析工具集，有丰富的解析工具。
 
     - name: CTFHub
       link: https://ctfhub.com/
-      avatar: https://img.loogeking.top/images/links/5.jpg
+      avatar: /images/links/5.jpg
       descr: CTFHub，一个CTF竞赛平台，有丰富的CTF竞赛题目。
 
 
